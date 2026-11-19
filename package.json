@@ -1,0 +1,8 @@
+{
+  "name": "mafia-live-log",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {"build": "echo ready"},
+  "dependencies": {"@capacitor/core": "^6.2.0"},
+  "devDependencies": {"@capacitor/cli": "^6.2.0"}
+}
