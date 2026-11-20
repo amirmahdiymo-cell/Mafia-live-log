@@ -129,7 +129,7 @@ section[hidden]{display:none!important}
 .t-out{margin-top:10px;color:var(--muted);font-size:14px}
 
 /* players: avatar + name, warning ring around the avatar */
-.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(8,auto);gap:10px;direction:rtl}
 .pl{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"av nm" "tags tags";align-items:center;gap:10px 12px;text-align:right;min-width:0;min-height:92px;padding:14px 12px 12px;border:1px solid var(--line);border-radius:20px;align-content:start;transition:transform .15s ease}
 .pl:active{transform:scale(.98)}
 .pl[data-s="m"]{border-color:var(--red-line)}
@@ -189,6 +189,13 @@ input[type="time"]::-webkit-calendar-picker-indicator{display:none}
 .chip.on{background:var(--gold);border-color:var(--gold);color:var(--on-gold);font-weight:800}
 .sect{color:var(--gold);font-weight:800;margin:24px 4px 10px}
 pre.prev{margin:0 0 14px;background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:16px;font:16px/2 var(--font);white-space:pre-wrap;overflow-wrap:anywhere}
+.cardimg{display:block;width:100%;height:auto;margin:0 0 14px;border-radius:18px;border:1px solid var(--line)}
+.paintbar{border:1px solid var(--gold-line);background:var(--gold-soft);border-radius:20px;padding:12px;margin-bottom:12px;display:grid;gap:10px}
+.pcount{font-size:17px;font-weight:700;display:flex;gap:14px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.pbrush{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pbrush button{border:1px solid var(--line);background:var(--panel2);border-radius:16px;min-height:52px;font-size:16px;font-weight:700;padding:4px}
+.pbrush button.on{background:var(--gold);border-color:var(--gold);color:var(--on-gold)}
+.phelp{margin:0;color:var(--muted);font-size:13px}
 .row2{display:flex;gap:10px;flex-wrap:wrap}
 .row2 .btn{flex:1;min-width:130px}
 
@@ -259,7 +266,7 @@ pre.prev{margin:0 0 14px;background:var(--panel2);border:1px solid var(--line);b
 
 <header class="bar"><div class="wrap">
   <div class="brand"><span class="mark"><svg class="ic" viewBox="0 0 24 24"><rect x="6" y="3.5" width="12" height="17" rx="2"/><path d="M9.5 8h5M9.5 12h5M9.5 16h3"/></svg></span><strong>مدار</strong></div>
-  <div class="hact"><span class="pill" id="ph">روز ۱</span><button class="btn icon" id="settingsOpen" type="button" aria-label="تنظیمات"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.4"/><circle cx="8" cy="17" r="2.4"/></svg></button><button class="btn primary" id="copyTop" type="button">کپی<span class="hide-s"> گزارش</span></button></div>
+  <div class="hact"><span class="pill" id="ph">روز ۱</span><button class="btn icon" id="settingsOpen" type="button" aria-label="تنظیمات"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.4"/><circle cx="8" cy="17" r="2.4"/></svg></button><button class="btn primary" id="copyTop" type="button">عکس<span class="hide-s"> گزارش</span></button></div>
 </div></header>
 
 <main class="wrap">
@@ -292,6 +299,13 @@ pre.prev{margin:0 0 14px;background:var(--panel2);border:1px solid var(--line);b
     </div>
 
     <div class="tally" id="tally"></div>
+    <button class="btn" id="paintOn" type="button" style="width:100%;margin-bottom:10px">تعیین ساید بازیکن‌ها</button>
+    <div class="paintbar" id="paintBar" hidden>
+      <div class="pcount" id="pCount"></div>
+      <div class="pbrush" id="pBrush"></div>
+      <div class="row2"><button class="btn" id="pRest" type="button">بقیه شهروند</button><button class="btn primary" id="pDone" type="button">تمام</button></div>
+      <p class="phelp">یک ساید را انتخاب کن و روی بازیکن‌ها بزن. دوباره زدن روی همان بازیکن ساید را پاک می‌کند.</p>
+    </div>
     <div class="pgrid" id="plist"></div>
     <button class="link" id="editPl" type="button" hidden>تنظیم تعداد و نام بازیکنان</button>
   </section>
@@ -305,8 +319,8 @@ pre.prev{margin:0 0 14px;background:var(--panel2);border:1px solid var(--line);b
       <div class="fld"><label for="g1">گرداننده اول</label><input id="g1" autocomplete="off"></div>
       <div class="fld"><label for="g2">گرداننده دوم</label><input id="g2" autocomplete="off"></div>
       <div class="fld full"><label for="scenario">سناریو</label><input id="scenario" autocomplete="off"></div>
-      <div class="fld"><label for="start">ساعت شروع</label><div class="row"><input id="start" type="time"><button class="stamp" type="button" data-stamp="start">اکنون</button></div></div>
-      <div class="fld"><label for="finish">ساعت پایان</label><div class="row"><input id="finish" type="time"><button class="stamp" type="button" data-stamp="finish">اکنون</button></div></div>
+      <div class="fld"><label for="start">ساعت شروع</label><div class="row"><input id="start" type="text" inputmode="numeric" maxlength="5" placeholder="22:10" dir="ltr" style="text-align:right"><button class="stamp" type="button" data-stamp="start">اکنون</button></div></div>
+      <div class="fld"><label for="finish">ساعت پایان</label><div class="row"><input id="finish" type="text" inputmode="numeric" maxlength="5" placeholder="01:34" dir="ltr" style="text-align:right"><button class="stamp" type="button" data-stamp="finish">اکنون</button></div></div>
       <div class="fld full"><label for="date">تاریخ</label><input id="date" autocomplete="off"></div>
       <div class="fld full"><label>ساید برنده</label><div class="chips"><button type="button" class="chip" data-side="شهروند">شهروند</button><button type="button" class="chip" data-side="مافیا">مافیا</button><button type="button" class="chip" data-side="مستقل">مستقل</button></div></div>
     </div>
@@ -317,9 +331,9 @@ pre.prev{margin:0 0 14px;background:var(--panel2);border:1px solid var(--line);b
       <div class="fld full"><label for="e_bug">مورد باگ</label><textarea id="e_bug" placeholder="شرح باگ..."></textarea></div>
       <div class="fld full"><label for="e_exp">تجربه‌نگاری جدید</label><textarea id="e_exp" placeholder="نکته یا تجربه قابل ثبت..."></textarea></div>
     </div>
-    <div class="sect">پیش‌نمایش گزارش</div>
-    <pre class="prev" id="prev"></pre>
-    <div class="row2"><button class="btn primary" id="copyBtm" type="button">کپی گزارش</button><button class="btn" id="reset" type="button">بازی جدید</button></div>
+    <div class="sect">عکس گزارش</div>
+    <canvas id="card" class="cardimg" aria-label="پیش‌نمایش عکس گزارش"></canvas>
+    <div class="row2"><button class="btn primary" id="copyBtm" type="button">ذخیره / ارسال عکس</button><button class="btn" id="reset" type="button">بازی جدید</button></div>
   </section>
 </main>
 
@@ -373,8 +387,10 @@ const ICONS={
 const XIC='<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 const EMPTY_ART='<svg class="empty-art" viewBox="0 0 120 96" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="22" y="10" width="54" height="72" rx="9"/><path d="M34 28h30M34 40h30M34 52h17"/><path class="acc" d="M82 72l22-22 8 8-22 22-11 3z"/><path class="acc" d="M97 57l8 8"/></svg>';
 
-function todayFa(){try{return new Intl.DateTimeFormat('fa-IR-u-ca-persian',{year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}catch(e){return ''}}
-function hm(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function todayFa(){try{return new Intl.DateTimeFormat('fa-IR-u-ca-persian',{timeZone:'Asia/Tehran',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}catch(e){return ''}}
+function tehran(){try{const p={};new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tehran',hourCycle:'h23',hour:'2-digit',minute:'2-digit'}).formatToParts(new Date()).forEach(x=>p[x.type]=x.value);return[+p.hour%24,+p.minute]}catch(e){const d=new Date();return[d.getHours(),d.getMinutes()]}}
+function hm(){const[h,m]=tehran();return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+function normTime(v){const d=String(v).replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c)).replace(/[٠-٩]/g,c=>'٠١٢٣٤٥٦٧٨٩'.indexOf(c)).replace(/\D/g,'').slice(0,4);return d.length>2?d.slice(0,2)+':'+d.slice(2):d}
 const MIN_SEATS=10,MAX_SEATS=16;
 const seatName=i=>'پلیر '+fa(i+1);
 const def=(count=MIN_SEATS)=>({playerCount:count,players:Array.from({length:count},(_,i)=>({id:i+1,name:seatName(i)})),log:[],phase:{t:'day',n:1},info:{g1:'',g2:'',scenario:'',date:todayFa(),start:'',finish:''},side:'',end:{dc:'',beh:'',bug:'',exp:''},tab:'players',uid:count+1});
@@ -417,7 +433,7 @@ function toast(msg,undo){const el=$('#toast');el.textContent='';const sp=documen
  el.hidden=false;clearTimeout(tt);tt=setTimeout(()=>{el.hidden=true},undo?6000:2200)}
 
 /* log */
-function record(pid,act,note){const d=new Date();if(!S.info.start){S.info.start=hm();$('#start').value=S.info.start}const e={id:S.uid++,pid,act,note:note||'',time:fa2(d.getHours())+':'+fa2(d.getMinutes()),ph:phaseLabel(S.phase)};S.log.push(e);save();flashPid=pid;renderAll();flashPid=null;return e}
+function record(pid,act,note){const d=new Date();if(!S.info.start){S.info.start=hm();$('#start').value=S.info.start}const e={id:S.uid++,pid,act,note:note||'',time:fa2(tehran()[0])+':'+fa2(tehran()[1]),ph:phaseLabel(S.phase)};S.log.push(e);save();flashPid=pid;renderAll();flashPid=null;return e}
 function removeEntry(id){const i=S.log.findIndex(e=>e.id===id);if(i<0)return null;const [e]=S.log.splice(i,1);save();renderAll();return e}
 function restoreEntry(e){S.log.push(e);S.log.sort((a,b)=>a.id-b.id);save();renderAll()}
 
@@ -446,14 +462,31 @@ function renderPlayers(){
  const need=editing;
  $('#setup').hidden=!need;
  $('#editPl').hidden=need;
+ const L=Math.ceil(S.players.length/2);
+ $('#plist').style.gridTemplateRows=`repeat(${L},auto)`;
  $('#plist').innerHTML=S.players.map((p,i)=>{
   const {c,out}=stats(p.id);
   const status=out?`<span class="tag s2">${esc(outLabel(out))}</span>`:'';
   const hint=(!out&&c.warn>=2)?'<span class="tag hint">مرحله دوم؟</span>':'';
-  return `<button class="pl${out?' is-out':''}${flashPid===p.id?' flash':''}" type="button" data-pid="${p.id}" data-s="${SIDES[p.side]?p.side:''}" aria-label="صندلی ${fa(i+1)}، ${esc(p.name)}">${avatar(p,i,c,out,false)}<span class="nm">${esc(p.name)}</span><span class="tags">${status}${hint}${tagsFor(c,out)}</span></button>`}).join('');
+  return `<button class="pl${out?' is-out':''}${flashPid===p.id?' flash':''}" type="button" style="grid-column:${i<L?2:1};grid-row:${i<L?i+1:2*L-i}" data-pid="${p.id}" data-s="${SIDES[p.side]?p.side:''}" aria-label="صندلی ${fa(i+1)}، ${esc(p.name)}">${avatar(p,i,c,out,false)}<span class="nm">${esc(p.name)}</span><span class="tags">${status}${hint}${tagsFor(c,out)}</span></button>`}).join('');
  // Direct handlers make player taps reliable in Chrome on Android.
- $('#plist').querySelectorAll('button[data-pid]').forEach(b=>{b.onclick=()=>openSheet(Number(b.dataset.pid))});
+ $('#plist').querySelectorAll('button[data-pid]').forEach(b=>{b.onclick=()=>paintMode?paintPlayer(Number(b.dataset.pid)):openSheet(Number(b.dataset.pid))});
 }
+/* quick side painting */
+let paintMode=false,brush='m';
+function renderPaint(){
+ $('#paintBar').hidden=!paintMode;$('#paintOn').hidden=paintMode;
+ if(!paintMode)return;
+ const T={c:0,m:0,i:0,'':0};S.players.forEach(p=>T[SIDES[p.side]?p.side:'']++);
+ $('#pCount').innerHTML=`<span>🔴 ${fa(T.m)}</span><span>🟤 ${fa(T.i)}</span><span>🟢 ${fa(T.c)}</span><span style="color:var(--muted)">بدون ساید ${fa(T[''])}</span>`;
+ $('#pBrush').innerHTML=['m','i','c'].map(k=>`<button type="button" class="${brush===k?'on':''}" data-brush="${k}">${SIDES[k]} ${SIDE_N[k]}</button>`).join('');
+ $('#pBrush').querySelectorAll('button').forEach(b=>{b.onclick=()=>{brush=b.dataset.brush;renderPaint()}});
+}
+function paintPlayer(pid){const p=S.players.find(x=>x.id===pid);if(!p)return;
+ p.side=p.side===brush?'':brush;save();renderAll()}
+$('#paintOn').onclick=()=>{paintMode=true;renderPaint()};
+$('#pDone').onclick=()=>{paintMode=false;renderPaint()};
+$('#pRest').onclick=()=>{let n=0;S.players.forEach(p=>{if(!SIDES[p.side]){p.side='c';n++}});save();renderAll();toast(n?fa(n)+' نفر شهروند شدند':'همه ساید دارند')};
 function savePlayers(){
  const count=Math.max(MIN_SEATS,Math.min(MAX_SEATS,Number($('#playerCount').value)||MIN_SEATS));
  const lines=$('#names').value.split('\n');
@@ -543,7 +576,95 @@ function report(){
  [['تخلف رفتاری','beh'],['مورد باگ','bug'],['تجربه‌نگاری جدید','exp']].forEach(([n,k])=>{const v=S.end[k].trim();if(v)L.push(n+': '+v)});
  return L.join('\n');
 }
-function updatePreview(){$('#prev').textContent=report()}
+function updatePreview(){if(S.tab==='report')drawCard()}
+/* image card: drawn straight on a canvas so it needs no library and looks the same on every phone */
+const PERS='۰۱۲۳۴۵۶۷۸۹',pd=v=>String(v).replace(/\d/g,d=>PERS[d]);
+const SIDEC={c:{n:'شهروند',col:'#7fc6a0'},m:{n:'مافیا',col:'#ee8a86'},i:{n:'مستقل',col:'#b58863'}};
+const WIN={'شهروند':'c','مافیا':'m','مستقل':'i'};
+const CF="'Estedad',Tahoma,sans-serif";
+function durText(){const m=/^(\d{1,2}):(\d{2})$/,x=m.exec(S.info.start||''),y=m.exec(S.info.finish||'');if(!x||!y)return '';
+ let d=(+y[1]*60+ +y[2])-(+x[1]*60+ +x[2]);if(d<0)d+=1440;const h=Math.floor(d/60),mi=d%60;
+ return (h?fa(h)+' ساعت':'')+(h&&mi?' و ':'')+(mi||!h?fa(mi)+' دقیقه':'')}
+function drawCard(){
+ const cv=$('#card'),W=1080,P=56,G=18,I=S.info,n=S.players.length,L=Math.ceil(n/2);
+ const wk=WIN[S.side]||'',tint=wk?SIDEC[wk].col:'#d6b370';
+ const PH=122,PG=14,CH=130,WH=210;
+ const H=P+64+40+WH+G+CH+G+CH+G+CH+G+CH+56+40+L*(PH+PG)+100;
+ cv.width=W;cv.height=H;const x=cv.getContext('2d');
+ x.direction='rtl';x.textAlign='right';x.textBaseline='alphabetic';
+ const rr=(a,b,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(a,b,w,h,r):x.rect(a,b,w,h)};
+ const fit=(t,w,size,wt)=>{let z=size;x.font=wt+' '+z+'px '+CF;while(x.measureText(t).width>w&&z>18){z-=2;x.font=wt+' '+z+'px '+CF}return z};
+ // background
+ x.fillStyle='#0c1118';x.fillRect(0,0,W,H);
+ let g=x.createRadialGradient(W/2,0,0,W/2,0,W*0.9);g.addColorStop(0,'#1f2c3d');g.addColorStop(1,'#0c111800');x.fillStyle=g;x.fillRect(0,0,W,H);
+ const box=(a,b,w,h,col,r)=>{const gr=x.createLinearGradient(a+w,b,a,b+h);gr.addColorStop(0,col+'5a');gr.addColorStop(1,col+'1c');x.fillStyle=gr;rr(a,b,w,h,r);x.fill();x.lineWidth=2;x.strokeStyle=col+'99';rr(a+1,b+1,w-2,h-2,r);x.stroke()};
+ // header
+ let y=P;
+ x.fillStyle='#d6b370';rr(W-P-64,y,64,64,20);x.fill();
+ x.strokeStyle='#1a1307';x.lineWidth=4;x.lineCap='round';rr(W-P-44,y+14,24,36,6);x.stroke();
+ x.beginPath();x.moveTo(W-P-37,y+32);x.lineTo(W-P-27,y+32);x.moveTo(W-P-37,y+41);x.lineTo(W-P-31,y+41);x.stroke();
+ x.fillStyle='#eef2f6';x.font='800 48px '+CF;x.fillText('مدار',W-P-86,y+48);
+ x.fillStyle='#93a1b0';x.font='600 34px '+CF;x.textAlign='left';x.fillText('گزارش بازی',P,y+46);x.textAlign='right';
+ y+=64+40;
+ // winner
+ box(P,y,W-2*P,WH,tint,40);
+ x.fillStyle='#93a1b0';x.font='600 34px '+CF;x.fillText('ساید برنده',W-P-34,y+62);
+ x.fillStyle=wk?tint:'#93a1b0';x.font='800 '+(wk?120:70)+'px '+CF;x.fillText(wk?SIDEC[wk].n:'ثبت نشده',W-P-34,y+168);
+ y+=WH+G;
+ const cell=(a,b,w,label,val)=>{box(a,b,w,CH,tint,30);x.fillStyle='#93a1b0';x.font='500 28px '+CF;x.fillText(label,a+w-26,b+44);
+  const v=(val||'').trim();x.fillStyle=v?'#eef2f6':'#93a1b080';fit(v?pd(v):'—',w-52,44,'700');x.fillText(v?pd(v):'—',a+w-26,b+101)};
+ const hw=(W-2*P-G)/2;
+ cell(P,y,W-2*P,'سناریو',I.scenario);y+=CH+G;
+ cell(P+hw+G,y,hw,'گرداننده اول',I.g1);cell(P,y,hw,'گرداننده دوم',I.g2);y+=CH+G;
+ cell(P+hw+G,y,hw,'تاریخ',I.date);
+ const tm=(I.start||I.finish)?(I.start&&I.finish?pd(I.start)+' تا '+pd(I.finish):pd(I.start||I.finish)):'';
+ cell(P,y,hw,'ساعت',tm);y+=CH+G;
+ cell(P,y,W-2*P,'مدت بازی',durText());y+=CH+56;
+ // players
+ x.fillStyle='#d6b370';x.font='800 44px '+CF;const tt='بازیکن‌ها';x.fillText(tt,W-P,y);
+ const tw=x.measureText(tt).width;x.fillStyle='#263243';x.fillRect(P,y-16,W-P-tw-P-18,2);
+ y+=40;
+ const cw=(W-2*P-G)/2;
+ S.players.forEach((p,i)=>{
+  const left=i<L,row=left?i:2*L-1-i;
+  const a=left?P:P+cw+G,b=y+row*(PH+PG);
+  const sk=SIDEC[p.side]?p.side:'',col=sk?SIDEC[sk].col:'#93a1b0';
+  box(a,b,cw,PH,col,28);
+  const isDef=p.name===seatName(i),hh=isDef?(i*47+20)%360:hueOf(p.name);
+  const cx=a+cw-26-44,cy=b+PH/2;
+  x.fillStyle='hsl('+hh+' 50% 40%)';x.beginPath();x.arc(cx,cy,42,0,7);x.fill();
+  x.lineWidth=5;x.strokeStyle=col;x.beginPath();x.arc(cx,cy,42,0,7);x.stroke();
+  x.fillStyle='#fff';x.textAlign='center';x.font='800 42px '+CF;x.fillText(isDef?fa(i+1):([...p.name.trim()][0]||fa(i+1)),cx,cy+15);
+  if(!isDef){x.fillStyle='#1b2431';x.beginPath();x.arc(cx+32,cy-34,19,0,7);x.fill();x.lineWidth=3;x.strokeStyle='#0c1118';x.stroke();
+   x.fillStyle='#93a1b0';x.font='700 21px '+CF;x.fillText(fa(i+1),cx+32,cy-27)}
+  x.textAlign='right';
+  const nx=cx-42-22,nw=nx-a-22;
+  x.fillStyle='#eef2f6';fit(p.name,nw,40,'700');x.fillText(p.name,nx,sk?cy+2:cy+14);
+  if(sk){x.fillStyle=col;x.font='600 28px '+CF;x.fillText(SIDEC[sk].n,nx,cy+40)}
+ });
+ y+=L*(PH+PG);
+ x.textAlign='center';x.fillStyle='#d6b37066';x.fillRect(W/2-50,y+10,100,3);
+ x.fillStyle='#93a1b0';x.font='500 30px '+CF;x.fillText('مدار · دفترچه زنده گردانده',W/2,y+62);
+}
+try{document.fonts&&document.fonts.ready.then(()=>{updatePreview()})}catch(e){}
+async function saveImage(){
+ try{await Promise.race([Promise.all([document.fonts.load('400 30px Estedad'),document.fonts.load('700 30px Estedad'),document.fonts.load('800 30px Estedad')]),new Promise(r=>setTimeout(r,2500))])}catch(e){}
+ drawCard();
+ const cv=$('#card'),name='madar-report-'+Date.now()+'.png';
+ const blob=await new Promise(r=>cv.toBlob(r,'image/png'));
+ if(!blob){toast('ساخت عکس ناموفق بود');return}
+ const P=window.Capacitor&&window.Capacitor.Plugins;
+ if(P&&P.Filesystem&&P.Share){
+  try{const f=await P.Filesystem.writeFile({path:name,data:cv.toDataURL('image/png').split(',')[1],directory:'CACHE'});
+   await P.Share.share({title:'گزارش بازی',files:[f.uri]});return}
+  catch(e){if(/cancel/i.test(String(e&&e.message)))return;toast('ارسال عکس ناموفق بود')}
+ }
+ try{const file=new File([blob],name,{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file]});return}}
+ catch(e){if(e&&e.name==='AbortError')return}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();
+ toast('عکس ذخیره شد')
+}
 async function copyReport(){
  const t=report();
  try{await navigator.clipboard.writeText(t);toast('گزارش کپی شد');return}catch(e){}
@@ -573,7 +694,7 @@ function renderNav(){
  $('#nav').querySelectorAll('button[data-tab]').forEach(b=>{b.onclick=()=>setTab(b.dataset.tab)});
 }
 function setTab(k){S.tab=k;save();renderNav();if(k==='report')updatePreview();window.scrollTo(0,0)}
-function renderAll(){renderPhase();renderPlayers();renderTally();renderLog();renderNav();updatePreview()}
+function renderAll(){renderPhase();renderPlayers();renderTally();renderLog();renderNav();updatePreview();renderPaint()}
 
 /* events */
 document.addEventListener('click',ev=>{
@@ -594,14 +715,15 @@ document.addEventListener('click',ev=>{
    toast(nameOf(pid)+' · '+AM[act].n+' ثبت شد',()=>{removeEntry(e.id)});return}
  if(el=t.closest('[data-stamp]')){const k=el.dataset.stamp;S.info[k]=hm();save();$('#'+k).value=S.info[k];updatePreview();return}
 });
+document.querySelectorAll('[data-stamp]').forEach(b=>{b.onclick=()=>{const k=b.dataset.stamp;S.info[k]=hm();save();$('#'+k).value=S.info[k];updatePreview()}});
 $('#nextPh').onclick=nextPhase;
 $('#prevPh').onclick=prevPhase;
 $('#savePl').onclick=savePlayers;
 $('#editPl').onclick=()=>{editing=true;$('#playerCount').value=String(S.players.length);$('#names').value=S.players.map(p=>p.name).join('\n');renderPlayers();$('#names').focus()};
 $('#cancelPl').onclick=()=>{editing=false;renderPlayers()};
-$('#copyTop').onclick=()=>{if(S.tab!=='report')setTab('report');copyReport()};
-$('#copyBtm').onclick=copyReport;
-['g1','g2','scenario','date','start','finish'].forEach(k=>$('#'+k).addEventListener('input',e=>{S.info[k]=e.target.value;save();updatePreview()}));
+$('#copyTop').onclick=()=>{if(S.tab!=='report')setTab('report');saveImage()};
+$('#copyBtm').onclick=saveImage;
+['g1','g2','scenario','date','start','finish'].forEach(k=>$('#'+k).addEventListener('input',e=>{if(k==='start'||k==='finish')e.target.value=normTime(e.target.value);S.info[k]=e.target.value;save();updatePreview()}));
 ['dc','beh','bug','exp'].forEach(k=>$('#e_'+k).addEventListener('input',e=>{S.end[k]=e.target.value;save();updatePreview()}));
 let armed=false,at=null;
 $('#reset').onclick=()=>{const b=$('#reset');
