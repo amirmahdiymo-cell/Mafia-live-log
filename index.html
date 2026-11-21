@@ -14,6 +14,9 @@
 <script>try{var d=document.documentElement,L=localStorage,t=L.getItem('md2-theme');d.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');d.dataset.accent=L.getItem('md2-acc')||'gold';d.dataset.neon=L.getItem('md2-neon')||'0'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Estedad:wght@400;600;800&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap" rel="stylesheet">
+<!-- فونت‌های آفلاین: در بیلد APK خودکار داخل پوشه‌ی fonts قرار می‌گیرند. اگر نبودند، بی‌صدا رد می‌شود -->
+<link rel="stylesheet" href="fonts/estedad/400.css"><link rel="stylesheet" href="fonts/estedad/600.css"><link rel="stylesheet" href="fonts/estedad/800.css">
+<link rel="stylesheet" href="fonts/noto-nastaliq-urdu/400.css"><link rel="stylesheet" href="fonts/noto-nastaliq-urdu/700.css">
 <style>
 /* Local fonts: put the files in the fonts/ folder next to index.html. If a file is missing the browser silently uses Google Fonts, then Tahoma. */
 @font-face{font-family:'EstedadLocal';src:url('fonts/Estedad.woff2') format('woff2'),url('fonts/Estedad.ttf') format('truetype');font-weight:400 800;font-style:normal;font-display:swap}
