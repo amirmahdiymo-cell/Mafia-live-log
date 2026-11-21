@@ -92,6 +92,7 @@ main.wrap{position:relative;z-index:2;padding:30px 16px 110px}
 .lgd{display:flex;gap:12px;margin-top:7px;font-size:14px;font-weight:700}.lgd .mu,.pb .mu{color:var(--mu)}
 .chip{min-height:44px;padding:0 16px;border-radius:22px;border:1px solid var(--gl);background:transparent;font-weight:800;font-size:14.5px;white-space:nowrap}
 .chip.pri,.go{background:var(--gr);border-color:transparent;color:var(--on);box-shadow:inset 0 1px 0 #fff6,0 8px 18px -8px var(--ac)}.chip.on{border-color:var(--ac);color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
+html:not([data-theme="dark"]) .ib.pr,html:not([data-theme="dark"]) .chip.pri,html:not([data-theme="dark"]) .go{background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 82%,#fff),var(--ac) 48%,color-mix(in srgb,var(--ac) 62%,#000));border-color:color-mix(in srgb,var(--ac) 75%,#000)}
 .go{width:100%;min-height:52px;border-radius:26px;font-size:16px;margin-top:16px;font-weight:800}
 .pb{display:flex;gap:8px;align-items:center}.pb+.pb{margin-top:8px}.pb .mu{font-size:14px;margin-inline-start:auto}
 .br{flex:1;min-height:46px;border-radius:23px;border:1.5px solid var(--ln);font-weight:800;font-size:14px}.br.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,transparent)}
@@ -199,14 +200,14 @@ canvas{width:100%;height:auto;border-radius:18px;border:1px solid var(--gl);disp
 .fab.done{width:56px;padding:0;justify-content:center}
 .fab.new{animation:sdPulse 2s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.fab.new{animation:none}}
-.hlp details{border:1px solid var(--ln);border-radius:18px;background:var(--s2);padding:12px 14px;margin:8px 0}.hlp summary{font-weight:800;cursor:pointer;font-size:15px}.hlp .hb{margin-top:8px;line-height:2;color:var(--tx);font-size:14px}.hlp ol{margin:0;padding-inline-start:20px}
+.hlp details{border:1px solid var(--ln);border-radius:18px;background:var(--s2);padding:12px 14px;margin:8px 0}.hlp summary{font-weight:800;cursor:pointer;font-size:15px}.hlp .hb{margin-top:8px;line-height:2;color:var(--tx);font-size:14px}.hlp ol{margin:0;padding-inline-start:20px}.hlp .hgo{margin-top:12px;width:100%}.hint.hint{outline:3px solid var(--ac);outline-offset:4px;animation:hintp .9s ease-in-out 5}@keyframes hintp{50%{outline-offset:9px}}
 </style>
 </head>
 <body>
 <div id="splash" aria-hidden="true" onclick="this.remove()"><div class="sk n"></div><div class="sk d"></div><div class="st"></div><div class="moon"></div><div class="sun"></div><b>مدار</b><small>دفترچه زنده گردانده</small></div>
 <header class="top"><div class="wrap">
  <div class="r1"><span class="logo">مدار</span>
-  <button class="ib" id="gear" aria-label="تنظیمات"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.4"/><circle cx="8" cy="17" r="2.4"/></svg></button>
+  <button class="ib pr" id="help" type="button" aria-label="راهنما">؟</button><button class="ib pr" id="gear" type="button">تنظیمات</button>
   <button class="ib pr" id="img">عکس</button></div>
  <div class="hero" id="hero">
   <div class="sky sky-day"></div><div class="sky sky-night"></div>
@@ -371,16 +372,16 @@ function openSetup(){let n=S.players.length;const names=Array.from({length:MAXS}
   paint()})}
 $('#edit').onclick=openSetup;
 function openSettings(){const d=document.documentElement.dataset;
- openSh(`<h3>تنظیمات</h3><button class="chip pri" id="hlp" style="width:100%;margin-top:10px">📖 راهنما و آموزش</button><div class="sub">ظاهر برنامه</div><div class="rs"><button class="chip${d.theme==='dark'?' on':''}" data-th="dark">تاریک</button><button class="chip${d.theme==='light'?' on':''}" data-th="light">روشن</button></div>
+ openSh(`<h3>تنظیمات</h3><div class="sub">ظاهر برنامه</div><div class="rs"><button class="chip${d.theme==='dark'?' on':''}" data-th="dark">تاریک</button><button class="chip${d.theme==='light'?' on':''}" data-th="light">روشن</button></div>
  <div class="sub">رنگ اصلی</div><div class="sw">${ACC.map(([k,n,c])=>`<button class="${d.accent===k?'on':''}" data-ac="${k}" aria-label="${n}" style="--c1:${c}"></button>`).join('')}</div>
  <div class="sub">حالت نئون</div><div class="rs"><button class="chip${d.neon==='1'?' on':''}" id="neon">${d.neon==='1'?'روشن':'خاموش'}</button></div>`,s=>{
-  s.querySelector('#hlp').onclick=openHelp;
   s.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{d.theme=b.dataset.th;store('md2-theme',d.theme);openSettings();draw()});
   s.querySelectorAll('[data-ac]').forEach(b=>b.onclick=()=>{d.accent=b.dataset.ac;store('md2-acc',d.accent);openSettings()});
   s.querySelector('#neon').onclick=()=>{d.neon=d.neon==='1'?'0':'1';store('md2-neon',d.neon);openSettings()}})}
 
 /* ===== صفحه‌ی راهنما ===== */
-function openHelp(){const D=(t,h)=>`<details><summary>${t}</summary><div class="hb">${h}</div></details>`;
+function openHelp(){const GO={'شروع سریع':['players','#edit','اول از اینجا تعداد و اسم بازیکن‌ها را تنظیم کن'],'تعیین ساید':['players','.fab','با این دکمه ساید همه‌ی بازیکن‌ها را مشخص کن'],'فازهای روز و شب':['players','.phase-btns','«فاز بعد» بازی را بین روز و شب جلو می‌برد'],'ثبت مورد روی بازیکن':['players','#pg .pl','روی کارت هر بازیکن بزن تا مورد را ثبت کنی'],'لاگ':['log','#tabs [data-t=log]','همه‌ی موارد ثبت‌شده در تب لاگ می‌آید'],'گزارش و عکس':['report','#fl','اطلاعات گزارش را اینجا پر کن، پایین‌تر عکسش را بساز'],'ظاهر و ذخیره':['','#gear','تم و رنگ را از «تنظیمات» عوض کن']};
+ const D=(t,h)=>{const g=GO[t];return `<details><summary>${t}</summary><div class="hb">${h}${g?`<button class="chip pri hgo" type="button" data-tab="${g[0]}" data-sel="${g[1]}" data-msg="${g[2]}">نشونم بده ←</button>`:''}</div></details>`};
  openSh(`<div class="row"><div><h3>راهنمای مدار</h3><small style="color:var(--mu)">هر بخش را لمس کن تا باز شود</small></div><button class="x" id="hpx" aria-label="بستن">${XI}</button></div>
  <div class="hlp">
  ${D('شروع سریع','<ol><li>تعداد و اسم بازیکن‌ها را با «تنظیم تعداد و نام بازیکنان» (پایین لیست) بنویس.</li><li>با دکمه‌ی طلایی «تعیین ساید» ساید همه را مشخص کن.</li><li>با «فاز بعد» بازی را جلو ببر.</li><li>هر اتفاقی که افتاد، روی کارت بازیکن بزن و ثبت کن.</li><li>آخر بازی، در تب «گزارش» عکس گزارش را بساز.</li></ol>')}
@@ -392,8 +393,12 @@ function openHelp(){const D=(t,h)=>`<details><summary>${t}</summary><div class="
  ${D('ظاهر و ذخیره','از «تنظیمات» تم تاریک یا روشن، رنگ اصلی و حالت نئون را عوض کن. همه‌چیز خودکار روی همین گوشی ذخیره می‌شود.')}
  </div>
 `,sh=>{
-  sh.querySelector('#hpx').onclick=closeSh})}
-$('#gear').onclick=openSettings;
+  sh.querySelector('#hpx').onclick=closeSh;
+  sh.querySelectorAll('.hgo').forEach(b=>b.onclick=()=>{const{tab,sel,msg}=b.dataset;closeSh();if(tab&&S.tab!==tab)setTab(tab);setTimeout(()=>{const el=document.querySelector(sel);if(!el)return;el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('hint');setTimeout(()=>el.classList.remove('hint'),4500);msg&&toast(msg)},380)});
+  const ds=[...sh.querySelectorAll('.hlp details')];
+  ds.forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;ds.forEach(o=>{if(o!==d)o.open=false});setTimeout(()=>d.scrollIntoView({block:'nearest',behavior:'smooth'}),60)}));
+})}
+$('#gear').onclick=openSettings;$('#help').onclick=openHelp;
 
 /* report */
 const FL=[['g1','گرداننده اول'],['g2','گرداننده دوم'],['scenario','سناریو',1],['start','ساعت شروع',2],['finish','ساعت پایان',2],['date','تاریخ',1]],EF=[['dc','دیس‌کانکتی (موارد لاگ خودکار اضافه می‌شود)'],['beh','تخلف رفتاری'],['bug','مورد باگ'],['exp','تجربه‌نگاری جدید']];
