@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="مدار">
 <title>مدار</title>
-<script>try{var d=document.documentElement,L=localStorage,t=L.getItem('md2-theme');d.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');d.dataset.accent=L.getItem('md2-acc')||'gold';d.dataset.neon=L.getItem('md2-neon')||'0'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+<script>try{var d=document.documentElement,L=localStorage,t=L.getItem('md2-theme');d.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');d.dataset.accent=L.getItem(d.dataset.theme==='light'?'md2-acc-l':'md2-acc')||'gold';d.dataset.neon=L.getItem('md2-neon')||'0'}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Estedad:wght@400;600;800&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap" rel="stylesheet">
 <!-- فونت‌های آفلاین: در بیلد APK خودکار داخل پوشه‌ی fonts قرار می‌گیرند. اگر نبودند، بی‌صدا رد می‌شود -->
@@ -25,7 +25,7 @@
 :root[data-theme="dark"]{--bg:#09090c;--s1:#131318;--s2:#1d1d25;--ln:#2e2a22;--tx:#f3efe6;--mu:#9a9486;--ac:var(--a0);--on:#1a1206;--c:#62d6a0;--m:#ff7184;--i:#e5a45e;--phb:#1d150a;--phx:#f6e3b8;--sc:#030305d0;--hl:#ffffff14;--sh:#000b;color-scheme:dark}
 :root[data-phase="night"]{--phb:#222b63;--phx:#e9edff}
 :root[data-theme="dark"][data-phase="night"]{--phb:#0a0d26}
-:root[data-accent="blue"]{--a0:#7aaeff}:root[data-accent="violet"]{--a0:#b39dff}:root[data-accent="teal"]{--a0:#4fd0d1}
+:root[data-accent="blue"]{--a0:#7aaeff}:root[data-accent="violet"]{--a0:#b39dff}:root[data-accent="teal"]{--a0:#4fd0d1}:root[data-accent="copper"]{--a0:#e8793f}:root[data-accent="emerald"]{--a0:#2fb67f}:root[data-accent="wine"]{--a0:#e0526e}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 56px)}
 *{box-sizing:border-box}[hidden]{display:none!important}
 body{margin:0;background:radial-gradient(110% 50% at 50% 0,color-mix(in srgb,var(--ac) 13%,transparent),transparent 65%),var(--bg);color:var(--tx);font:16px/1.55 var(--f);transition:background .5s;-webkit-tap-highlight-color:transparent}
@@ -201,14 +201,34 @@ canvas{width:100%;height:auto;border-radius:18px;border:1px solid var(--gl);disp
 .fab.new{animation:sdPulse 2s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.fab.new{animation:none}}
 .hlp details{border:1px solid var(--ln);border-radius:18px;background:var(--s2);padding:12px 14px;margin:8px 0}.hlp summary{font-weight:800;cursor:pointer;font-size:15px}.hlp .hb{margin-top:8px;line-height:2;color:var(--tx);font-size:14px}.hlp ol{margin:0;padding-inline-start:20px}.hlp .hgo{margin-top:12px;width:100%}.hint.hint{outline:3px solid var(--ac);outline-offset:4px;animation:hintp .9s ease-in-out 5}@keyframes hintp{50%{outline-offset:9px}}
+.act.s2.soft{border-color:#e08a3c88;color:#e08a3c}.act.s2.hard{background:color-mix(in srgb,var(--m) 12%,transparent)}
+.rwarn{margin-top:10px;font-size:12.5px;line-height:1.7;color:#e08a3c;background:color-mix(in srgb,#e08a3c 14%,transparent);padding:8px 12px;border-radius:12px}
+.rcf{margin-top:12px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--m) 14%,transparent);color:var(--m);font-size:13px;line-height:1.7}
+.rgo{width:100%;min-height:52px;border-radius:26px;font:inherit;font-size:16px;font-weight:800;margin-top:16px;background:var(--gr);color:var(--on);border:1px solid transparent;cursor:pointer}.rgo.hard{background:var(--m);color:#fff}
+.dcb{position:absolute;left:10px;bottom:9px;display:flex;align-items:center;gap:3px;color:#e08a3c;font-size:11px;font-weight:800;line-height:1;padding:4px 7px;border-radius:99px;background:color-mix(in srgb,#e08a3c 14%,transparent);border:1px solid color-mix(in srgb,#e08a3c 42%,transparent)}
+.dcb svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.dcb.in{position:static;padding:2px 7px}
+.r1{gap:6px}.r1 .ib{padding:0 11px;font-size:13px;min-width:38px}
+html .ib.pr.armed{background:var(--m);border-color:transparent;color:#fff;box-shadow:none}.chip.armed{color:var(--m);border-color:var(--m)}
+.mn{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.mi{display:flex;align-items:center;gap:12px;width:100%;text-align:right;padding:10px 14px;min-height:64px;border-radius:18px;border:1.5px solid var(--ln);background:color-mix(in srgb,var(--s1) 80%,transparent);color:var(--tx);font:inherit}
+.mi:active{transform:scale(.98)}.mi .mic{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--s2);color:var(--ac)}
+.mi b{display:block;font-weight:800;font-size:15px}.mi small{display:block;color:var(--mu);font-size:12px;margin-top:3px;font-weight:500}
+.mi.dn{margin-top:8px;border-color:color-mix(in srgb,var(--m) 55%,transparent)}.mi.dn .mic,.mi.dn b{color:var(--m)}
+.mi.dn.armed{background:var(--m);border-color:var(--m)}.mi.dn.armed b,.mi.dn.armed small,.mi.dn.armed .mic{color:#fff}.mi.dn.armed .mic{background:#ffffff26}
+#menu{position:relative;overflow:hidden}
+#menu::after{content:"";position:absolute;top:-25%;bottom:-25%;left:0;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.9),transparent);transform:translateX(-160%) skewX(-20deg);pointer-events:none;animation:mnShine 4s ease-in-out 2s infinite}
+@keyframes mnShine{0%{transform:translateX(-160%) skewX(-20deg)}28%,100%{transform:translateX(330%) skewX(-20deg)}}
+#menu.seen::after{animation:none;display:none}
+@media (prefers-reduced-motion:reduce){#menu::after{animation:none;display:none}}
+.stc{padding:12px;border:1px solid var(--ln);border-radius:20px;background:var(--s1)}
+.stc .row b{font-size:16px;font-weight:800}.stc .ag{margin-top:10px}
 </style>
 </head>
 <body>
 <div id="splash" aria-hidden="true" onclick="this.remove()"><div class="sk n"></div><div class="sk d"></div><div class="st"></div><div class="moon"></div><div class="sun"></div><b>مدار</b><small>دفترچه زنده گردانده</small></div>
 <header class="top"><div class="wrap">
  <div class="r1"><span class="logo">مدار</span>
-  <button class="ib pr" id="help" type="button" aria-label="راهنما">؟</button><button class="ib pr" id="gear" type="button">تنظیمات</button>
-  <button class="ib pr" id="img">عکس</button></div>
+  <button class="ib pr" id="menu" type="button" aria-label="منو"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
  <div class="hero" id="hero">
   <div class="sky sky-day"></div><div class="sky sky-night"></div>
   <div class="glyph" aria-hidden="true">
@@ -221,14 +241,14 @@ canvas{width:100%;height:auto;border-radius:18px;border:1px solid var(--gl);disp
 </div></header>
 <div class="stk"><div class="wrap"><nav class="seg" id="tabs"></nav></div></div>
 <main class="wrap">
- <section id="v-players"><div class="tally" id="tally"></div><div class="pt" id="pt"></div><div class="pg" id="pg"></div><button class="link" id="edit">تنظیم تعداد و نام بازیکنان</button></section>
+ <section id="v-players"><div class="tally" id="tally"></div><div class="pt" id="pt"></div><div class="pg" id="pg"></div></section>
  <section id="v-log" hidden><div id="ll"></div></section>
  <section id="v-report" hidden>
   <div class="g2" id="fl"></div>
   <div class="sub" style="margin-top:14px">ساید برنده</div><div class="win" id="win"></div>
   <div class="sect">موارد پایانی</div><div class="g2" id="ef"></div>
   <div class="sect">عکس گزارش</div><canvas id="cv"></canvas>
-  <div class="g2" style="margin-top:12px"><button class="chip pri" id="save">ذخیره / ارسال عکس</button><button class="chip" id="reset">بازی جدید</button></div>
+  <div style="margin-top:12px"><button class="chip pri" id="save" style="width:100%">ذخیره / ارسال عکس</button></div>
  </section>
 </main>
 <div class="scrim" id="scrim" hidden><div class="sheet sh" id="sheet"></div></div>
@@ -245,6 +265,9 @@ const OUTA=['kill','kick','night','vote','back'],SD={c:'🟢',m:'🔴',i:'🟤'}
 const REASONS=['توهین','اکت ممتد','اطلاق نقش','چسباندن نقش','سلب نقش','درخواست اخراج از بازی'];
 const TABS=[['players','پلیرها'],['log','لاگ'],['report','گزارش']];
 const ACC=[['gold','طلایی','#e0b050'],['blue','آبی','#6aa8f5'],['violet','بنفش','#a78bfa'],['teal','فیروزه‌ای','#3cc3c4']];
+const ACCL=[['gold','طلایی','#d9aa4a'],['copper','مسی','#e8793f'],['emerald','زمردی','#2fb67f'],['wine','عنابی','#e0526e']];
+const accList=t=>t==='light'?ACCL:ACC,accKey=t=>t==='light'?'md2-acc-l':'md2-acc';
+const accFor=t=>{try{const v=localStorage.getItem(accKey(t));if(accList(t).some(a=>a[0]===v))return v}catch(e){}return'gold'};
 const XI='<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 const store=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
 const seat=i=>'بازیکن '+fa(i+1);
@@ -260,7 +283,9 @@ function toast(m,undo){const e=$('#toast');e.innerHTML='';const s=document.creat
 function stats(id){const es=S.log.filter(e=>e.pid===id),c={};es.forEach(e=>c[e.act]=(c[e.act]||0)+1);const last=[...es].reverse().find(e=>OUTA.includes(e.act));return{c,out:last&&last.act!=='back'?last:null}}
 const outL=e=>e.act==='night'?'کشته در '+e.ph:e.act==='vote'?'اجماع در '+e.ph:(e.act==='kill'?'اخراج سریع':'کیک')+' · '+e.ph;
 const heat=(c,o)=>o?0:(c.warn>=2||c.susp||c.sil)?3:c.warn?2:(c.note||c.rec)?1:0;
-const tags=(c,o)=>ACTS.filter(a=>c[a.k]&&!(o&&a.k===o.act)).map(a=>`<span class="t s${a.s}">${a.n}${c[a.k]>1?' ×'+fa(c[a.k]):''}</span>`).join('');
+const DCI='<svg viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M8.5 16.4a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.7"/><path d="M19 12.9a10 10 0 0 0-2-1.5"/><path d="M2 8.8a15 15 0 0 1 4.2-2.6"/><path d="M22 8.8a15 15 0 0 0-11.3-3.8"/><path d="m2 2 20 20"/></svg>';
+const dcb=(c,x)=>c.dc?`<span class="dcb${x?' in':''}" title="دیس‌کانکت" aria-label="دیس‌کانکت">${DCI}${c.dc>1?fa(c.dc):''}</span>`:'';
+const tags=(c,o)=>ACTS.filter(a=>a.k!=='dc'&&c[a.k]&&!(o&&a.k===o.act)).map(a=>`<span class="t s${a.s}">${a.n}${c[a.k]>1?' ×'+fa(c[a.k]):''}</span>`).join('');
 function record(pid,act,note){if(!S.info.start){S.info.start=hm();$('#start').value=S.info.start}const e={id:S.uid++,pid,act,note:note||'',time:pd(hm()),ph:pl(S.phase)};S.log.push(e);save();renderAll();return e}
 function removeEntry(id){const i=S.log.findIndex(e=>e.id===id);if(i<0)return;const[e]=S.log.splice(i,1);save();renderAll();return e}
 
@@ -270,21 +295,23 @@ function renderTop(){$('#phl').textContent=pl(S.phase);document.documentElement.
  $('#tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
  TABS.forEach(([k])=>$('#v-'+k).hidden=S.tab!==k)}
 function setTab(k){S.tab=k;save();renderAll();if(k==='report')draw();scrollTo(0,0)}
-$('#nx').onclick=()=>{const p=S.phase;S.phase=p.t==='day'?{t:'night',n:p.n}:{t:'day',n:p.n+1};save();renderTop()};
-$('#pv').onclick=()=>{const p=S.phase;if(p.t==='night')S.phase={t:'day',n:p.n};else if(p.n>1)S.phase={t:'night',n:p.n-1};save();renderTop()};
+$('#nx').onclick=()=>{const p=S.phase;S.phase=p.t==='day'?{t:'night',n:p.n}:{t:'day',n:p.n+1};save();renderTop();toast('فاز: '+pl(S.phase),()=>{S.phase=p;save();renderTop()})};
+$('#pv').onclick=()=>{const p=S.phase,q=p.t==='night'?{t:'day',n:p.n}:p.n>1?{t:'night',n:p.n-1}:null;if(!q)return;S.phase=q;save();renderTop();toast('فاز: '+pl(q),()=>{S.phase=p;save();renderTop()})};
 
 /* players */
 function renderPlayers(){const L=Math.ceil(S.players.length/2);
  $('#pg').innerHTML=S.players.map((p,i)=>{const{c,out}=stats(p.id),h=heat(c,out);
-  return `<button class="pl${out?' is-out':''}" data-pid="${p.id}" data-s="${SD[p.side]?p.side:''}" data-h="${h}" style="grid-column:${i<L?2:1};grid-row:${i<L?i+1:2*L-i}"><span class="band">${fa(i+1)}</span><span class="bd"><b class="nm">${esc(p.name)}</b><span class="tg">${out?`<span class="t s2">${esc(outL(out))}</span>`:''}${!out&&c.warn>=2?'<span class="t">مرحله دوم؟</span>':''}${tags(c,out)}</span></span><span class="heat">${[1,2,3].map(k=>`<i class="${h>=k?'f':''}"></i>`).join('')}</span></button>`}).join('');
+  return `<button class="pl${out?' is-out':''}" data-pid="${p.id}" data-s="${SD[p.side]?p.side:''}" data-h="${h}" style="grid-column:${i<L?2:1};grid-row:${i<L?i+1:2*L-i}"><span class="band">${fa(i+1)}</span><span class="bd"><b class="nm">${esc(p.name)}</b><span class="tg">${out?`<span class="t s2">${esc(outL(out))}</span>`:''}${!out&&c.warn>=2?'<span class="t">مرحله دوم؟</span>':''}${tags(c,out)}</span></span><span class="heat">${[1,2,3].map(k=>`<i class="${h>=k?'f':''}"></i>`).join('')}</span>${dcb(c)}</button>`}).join('');
  $('#pg').querySelectorAll('.pl').forEach(b=>b.onclick=()=>{const id=+b.dataset.pid;if(paint){const p=S.players.find(x=>x.id===id);p.side=p.side===brush?'':brush;save();renderAll()}else openSheet(id)})}
 function renderDock(){const T={c:0,m:0,i:0,'':0};let al=0;S.players.forEach(p=>{if(!stats(p.id).out){al++;T[SD[p.side]?p.side:'']++}});
  const gone=S.players.length-al;
  $('#tally').innerHTML=`<div class="ty"><div class="al"><b>${fa(al)}</b><small>زنده از ${fa(S.players.length)}</small></div><div class="sd3">${sidesOn().map(k=>`<div class="sc ${k}"><b>${fa(T[k])}</b><small>${SN[k]}</small></div>`).join('')}${T['']?`<div class="sc u"><b>${fa(T[''])}</b><small>بدون ساید</small></div>`:''}</div></div><div class="bar">${[['c','kc'],['m','km'],['i','ki'],['','k']].map(([k,c])=>T[k]?`<i class="${c}" style="flex:${T[k]}"></i>`:'').join('')}</div>${gone?`<p class="out">${fa(gone)} نفر از بازی خارج شده‌اند</p>`:''}`}
 function renderPaint(){const n=S.players.length,ks=sidesOn(),set=S.players.filter(p=>SD[p.side]).length,left=n-set,done=left===0&&n>0;
- $('#pt').innerHTML='';
+ const showSetup=!S.noSetup&&!done&&S.log.length===0;
+ $('#pt').innerHTML=showSetup?`<div class="stc"><div class="row"><b>شروع بازی</b><button class="x" id="stx" aria-label="بستن">${XI}</button></div><div class="ag"><button class="act s1" id="st1"><b>بازیکنان</b><small>تعداد و اسم</small></button><button class="act s1" id="st2"><b>تعیین ساید</b><small>${fa(left)} نفر بدون ساید</small></button></div></div>`:'';
+ if(showSetup){$('#st1').onclick=openSetup;$('#st2').onclick=openSideFlow;$('#stx').onclick=()=>{S.noSetup=1;save();renderPaint()}}
  let f=$('#fab');if(!f){f=document.createElement('button');f.id='fab';f.type='button';f.onclick=openSideFlow;document.body.append(f)}
- f.hidden=S.tab!=='players';f.className='fab'+(done?' done':'')+(set?'':' new');
+ f.hidden=S.tab!=='players'||done||showSetup;f.className='fab'+(done?' done':'')+(set?'':' new');
  f.setAttribute('aria-label',done?'ویرایش ساید بازیکن‌ها':'تعیین ساید بازیکن‌ها');
  f.innerHTML=`<span class="ic">${ks.map(k=>`<i style="--k:var(--${k})"></i>`).join('')}</span>${done?'':`<b>تعیین ساید</b>${left?`<em>${fa(left)}</em>`:''}`}`;
  const wi=document.querySelector('[data-w="i"]');if(wi)wi.style.display=(hasI()||S.side==='مستقل')?'':'none'}
@@ -320,22 +347,38 @@ function renderLog(){const b=$('#ll');if(!S.log.length){b.innerHTML='<div class=
 function openSh(html,fn){const s=$('#sheet');s.innerHTML='<div class="grab"></div>'+html;s.onclick=e=>e.stopPropagation();$('#scrim').hidden=false;s.scrollTop=0;fn&&fn(s)}
 function closeSh(){$('#scrim').hidden=true;cur=null}
 $('#scrim').onclick=closeSh;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSh()});
+const RSN={a:REASONS,b:['تکرار تخلف بعد از اخطار','توهین','اکت ممتد','اطلاق نقش','چسباندن نقش'],c:['توهین شدید','سلب نقش','درخواست اخراج از بازی','تخلف سنگین','عدم رعایت قوانین']};
+const RG={rec:'a',note:'a',warn:'a',susp:'b',sil:'b',kill:'c',kick:'c'};
+/* گام اول: انتخاب نوع مورد */
 function openSheet(pid){const p=S.players.find(x=>x.id===pid);cur=pid;const idx=S.players.indexOf(p)+1,{c,out}=stats(pid);
- const btn=a=>`<button class="act s${a.s}" data-do="${a.k}"><b>${a.n}</b>${a.sub?`<small>${a.sub}</small>`:''}</button>`,by=s=>ACTS.filter(a=>a.s===s).map(btn).join('');
+ const kd={susp:' soft',sil:' soft',kill:' hard',kick:' hard'};
+ const btn=a=>`<button class="act s${a.s}${kd[a.k]||''}" data-do="${a.k}"><b>${a.n}</b>${a.sub?`<small>${a.sub}</small>`:''}</button>`,by=s=>ACTS.filter(a=>a.s===s).map(btn).join('');
  const hist=tags(c,out);
  openSh(`<div class="row"><div><small class="mu" style="color:var(--mu)">صندلی ${fa(idx)} · ${esc(pl(S.phase))}</small><h3>${esc(p.name)}</h3></div><button class="x" id="cs" aria-label="بستن">${XI}</button></div>
- ${hist||out?`<div class="tg" style="margin-top:6px">${out?`<span class="t s2">${esc(outL(out))}</span>`:''}${hist}</div>`:''}
- <div class="sub">ساید پلیر</div><div class="rs">${Object.keys(SD).filter(k=>k!=='i'||hasI()||p.side==='i').map(k=>`<button class="chip${p.side===k?' on':''}${k==='i'&&indOwner(p)?' dis':''}" data-ps="${k}">${SD[k]} ${SN[k]}</button>`).join('')}</div>
+ ${hist||out||c.dc?`<div class="tg" style="margin-top:6px">${out?`<span class="t s2">${esc(outL(out))}</span>`:''}${hist}${dcb(c,1)}</div>`:''}
  <div class="sub">وضعیت در بازی</div><div class="ag">${out?`<button class="act" data-do="back" style="grid-column:1/-1"><b>برگشت به بازی</b><small>${esc(outL(out))}</small></button>`:`<button class="act s2" data-do="night"><b>کشته در شب</b></button><button class="act s2" data-do="vote"><b>اجماع روز</b></button>`}</div>
- <div class="sub">دلیل (اختیاری)</div><div class="rs">${REASONS.map(r=>`<button class="chip" data-r="${esc(r)}">${esc(r)}</button>`).join('')}</div>
- <input class="in" id="note" autocomplete="off" placeholder="یا دلیل را بنویس" style="margin-top:8px">
  <div class="sub">مرحله اول</div><div class="ag" style="--n:3">${by(1)}</div>
  <div class="sub">مرحله دوم · به تصمیم گرداننده</div><div class="ag">${by(2)}</div>
- <div class="sub">وضعیت اتصال</div><div class="ag" style="--n:1">${by(0)}</div>`,s=>{
+ ${!out&&!c.warn?'<div class="rwarn">این بازیکن هنوز اخطار نگرفته. اگر تخلف سنگین است می‌توانی مستقیم مرحله دوم را بزنی.</div>':''}
+ <div class="sub">وضعیت اتصال</div><div class="ag" style="--n:1">${by(0)}</div>
+ <div class="sub">ساید پلیر</div><div class="rs">${Object.keys(SD).filter(k=>k!=='i'||hasI()||p.side==='i').map(k=>`<button class="chip${p.side===k?' on':''}${k==='i'&&indOwner(p)?' dis':''}" data-ps="${k}">${SD[k]} ${SN[k]}</button>`).join('')}</div>`,s=>{
   s.querySelector('#cs').onclick=closeSh;
-  s.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{const n=s.querySelector('#note');n.value=n.value===b.dataset.r?'':b.dataset.r;s.querySelectorAll('[data-r]').forEach(x=>x.classList.toggle('on',x.dataset.r===n.value))});
-  s.querySelectorAll('[data-ps]').forEach(b=>b.onclick=()=>{const note=s.querySelector('#note').value;if(b.dataset.ps==='i'&&indOwner(p)){toast('مستقل فقط یک نفر است؛ «'+indOwner(p).name+'» مستقل است');return}p.side=p.side===b.dataset.ps?'':b.dataset.ps;save();renderAll();openSheet(pid);$('#note').value=note});
-  s.querySelectorAll('[data-do]').forEach(b=>b.onclick=()=>{const act=b.dataset.do,e=record(pid,act,s.querySelector('#note').value.trim());closeSh();toast(p.name+' · '+AM[act].n+' ثبت شد',()=>removeEntry(e.id))})})}
+  s.querySelectorAll('[data-ps]').forEach(b=>b.onclick=()=>{if(b.dataset.ps==='i'&&indOwner(p)){toast('مستقل فقط یک نفر است؛ «'+indOwner(p).name+'» مستقل است');return}p.side=p.side===b.dataset.ps?'':b.dataset.ps;save();renderAll();openSheet(pid)});
+  s.querySelectorAll('[data-do]').forEach(b=>b.onclick=()=>{const act=b.dataset.do;if(RG[act])openReason(pid,act);else doRecord(pid,act,'')})})}
+/* گام دوم: انتخاب یا نوشتن دلیل */
+function openReason(pid,act){const p=S.players.find(x=>x.id===pid),a=AM[act],hard=act==='kill'||act==='kick',list=RSN[RG[act]]||[];let sel='';
+ openSh(`<div class="row"><div style="display:flex;gap:8px;align-items:center"><button class="x" id="rb" aria-label="بازگشت">→</button><div><h3>${a.n}</h3><small style="color:var(--mu)">${esc(p.name)}</small></div></div><button class="x" id="cs" aria-label="بستن">${XI}</button></div>
+ ${list.length?`<div class="sub">دلیل را انتخاب کن</div><div class="rs">${list.map(r=>`<button class="chip" data-r="${esc(r)}">${esc(r)}</button>`).join('')}</div>`:''}
+ <div class="sub">${list.length?'یا دلیل شخصی بنویس':'دلیل (اختیاری)'}</div>
+ <input class="in" id="note" autocomplete="off" placeholder="دلیل را بنویس">
+ ${hard?`<div class="rcf">«${a.n}» برگشت‌پذیر نیست. بعد از ثبت، ${esc(p.name)} از بازی خارج می‌شود. (با «بازگردانی» بعد از ثبت می‌شود لغوش کرد.)</div>`:''}
+ <button class="rgo${hard?' hard':''}" id="ok">${hard?'تأیید و ثبت '+a.n:'ثبت '+a.n}</button>`,s=>{
+  const n=s.querySelector('#note');
+  s.querySelector('#cs').onclick=closeSh;s.querySelector('#rb').onclick=()=>openSheet(pid);
+  s.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{sel=sel===b.dataset.r?'':b.dataset.r;n.value=sel;s.querySelectorAll('[data-r]').forEach(x=>x.classList.toggle('on',x.dataset.r===sel))});
+  n.oninput=()=>{sel='';s.querySelectorAll('[data-r]').forEach(x=>x.classList.toggle('on',x.dataset.r===n.value.trim()))};
+  s.querySelector('#ok').onclick=()=>doRecord(pid,act,n.value.trim())})}
+function doRecord(pid,act,note){const p=S.players.find(x=>x.id===pid),e=record(pid,act,note);closeSh();toast(p.name+' · '+AM[act].n+' ثبت شد',()=>removeEntry(e.id))}
 const MINS=10,MAXS=16,NL=/[\r\n\u2028\u2029]/;
 function parseNames(t){let ls=String(t||'').replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g,'').split(/[\r\n\u2028\u2029\u0085]+/).map(x=>x.trim()).filter(Boolean);
  if(ls.length===1&&/[،,;؛|\t]/.test(ls[0]))ls=ls[0].split(/[،,;؛|\t]+/).map(x=>x.trim()).filter(Boolean);
@@ -370,27 +413,28 @@ function openSetup(){let n=S.players.length;const names=Array.from({length:MAXS}
    while(S.players.length<n)S.players.push({id:S.uid++,name:seat(S.players.length)});
    S.players.forEach((p,i)=>p.name=(names[i]||'').trim()||seat(i));save();closeSh();renderAll();toast(b4>S.log.length?'ذخیره شد؛ ثبت‌های صندلی‌های حذف‌شده پاک شد':'نام‌ها ذخیره شد')};
   paint()})}
-$('#edit').onclick=openSetup;
+
 function openSettings(){const d=document.documentElement.dataset;
  openSh(`<h3>تنظیمات</h3><div class="sub">ظاهر برنامه</div><div class="rs"><button class="chip${d.theme==='dark'?' on':''}" data-th="dark">تاریک</button><button class="chip${d.theme==='light'?' on':''}" data-th="light">روشن</button></div>
- <div class="sub">رنگ اصلی</div><div class="sw">${ACC.map(([k,n,c])=>`<button class="${d.accent===k?'on':''}" data-ac="${k}" aria-label="${n}" style="--c1:${c}"></button>`).join('')}</div>
+ <div class="sub">رنگ اصلی</div><div class="sw">${accList(d.theme).map(([k,n,c])=>`<button class="${d.accent===k?'on':''}" data-ac="${k}" aria-label="${n}" style="--c1:${c}"></button>`).join('')}</div>
  <div class="sub">حالت نئون</div><div class="rs"><button class="chip${d.neon==='1'?' on':''}" id="neon">${d.neon==='1'?'روشن':'خاموش'}</button></div>`,s=>{
-  s.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{d.theme=b.dataset.th;store('md2-theme',d.theme);openSettings();draw()});
-  s.querySelectorAll('[data-ac]').forEach(b=>b.onclick=()=>{d.accent=b.dataset.ac;store('md2-acc',d.accent);openSettings()});
+  s.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{d.theme=b.dataset.th;store('md2-theme',d.theme);d.accent=accFor(d.theme);openSettings();draw()});
+  s.querySelectorAll('[data-ac]').forEach(b=>b.onclick=()=>{d.accent=b.dataset.ac;store(accKey(d.theme),d.accent);openSettings()});
   s.querySelector('#neon').onclick=()=>{d.neon=d.neon==='1'?'0':'1';store('md2-neon',d.neon);openSettings()}})}
 
 /* ===== صفحه‌ی راهنما ===== */
-function openHelp(){const GO={'شروع سریع':['players','#edit','اول از اینجا تعداد و اسم بازیکن‌ها را تنظیم کن'],'تعیین ساید':['players','.fab','با این دکمه ساید همه‌ی بازیکن‌ها را مشخص کن'],'فازهای روز و شب':['players','.phase-btns','«فاز بعد» بازی را بین روز و شب جلو می‌برد'],'ثبت مورد روی بازیکن':['players','#pg .pl','روی کارت هر بازیکن بزن تا مورد را ثبت کنی'],'لاگ':['log','#tabs [data-t=log]','همه‌ی موارد ثبت‌شده در تب لاگ می‌آید'],'گزارش و عکس':['report','#fl','اطلاعات گزارش را اینجا پر کن، پایین‌تر عکسش را بساز'],'ظاهر و ذخیره':['','#gear','تم و رنگ را از «تنظیمات» عوض کن']};
+function openHelp(){const GO={'شروع سریع':['','#menu','«منو ← بازیکنان» را بزن تا تعداد و اسم‌ها را تنظیم کنی'],'تعیین ساید':['','#menu','«منو ← ساید بازیکن‌ها» ساید همه را مشخص یا ویرایش می‌کند'],'فازهای روز و شب':['players','.phase-btns','«فاز بعد» بازی را بین روز و شب جلو می‌برد'],'ثبت مورد روی بازیکن':['players','#pg .pl','روی کارت هر بازیکن بزن تا مورد را ثبت کنی'],'لاگ':['log','#tabs [data-t=log]','همه‌ی موارد ثبت‌شده در تب لاگ می‌آید'],'گزارش و عکس':['report','#fl','اطلاعات گزارش را اینجا پر کن، پایین‌تر عکسش را بساز'],'بازی جدید':['','#menu','«بازی جدید» داخل منوی بالای صفحه است'],'ظاهر و ذخیره':['','#menu','تم و رنگ را از «منو ← تنظیمات» عوض کن']};
  const D=(t,h)=>{const g=GO[t];return `<details><summary>${t}</summary><div class="hb">${h}${g?`<button class="chip pri hgo" type="button" data-tab="${g[0]}" data-sel="${g[1]}" data-msg="${g[2]}">نشونم بده ←</button>`:''}</div></details>`};
  openSh(`<div class="row"><div><h3>راهنمای مدار</h3><small style="color:var(--mu)">هر بخش را لمس کن تا باز شود</small></div><button class="x" id="hpx" aria-label="بستن">${XI}</button></div>
  <div class="hlp">
- ${D('شروع سریع','<ol><li>تعداد و اسم بازیکن‌ها را با «تنظیم تعداد و نام بازیکنان» (پایین لیست) بنویس.</li><li>با دکمه‌ی طلایی «تعیین ساید» ساید همه را مشخص کن.</li><li>با «فاز بعد» بازی را جلو ببر.</li><li>هر اتفاقی که افتاد، روی کارت بازیکن بزن و ثبت کن.</li><li>آخر بازی، در تب «گزارش» عکس گزارش را بساز.</li></ol>')}
- ${D('تعیین ساید','هر بازیکن با یک لمس شهروند، مافیا یا مستقل می‌شود و خودکار نفر بعدی می‌آید. «بقیه شهروند» باقی‌مانده را یک‌جا شهروند می‌کند. اگر سناریو مستقل ندارد، کلید «این سناریو مستقل دارد» را خاموش بگذار. در هر بازی فقط یک نفر می‌تواند مستقل باشد.')}
- ${D('فازهای روز و شب','دکمه‌ی «فاز بعد» بین روز و شب جابه‌جا می‌کند و «قبلی» یک قدم برمی‌گرداند. هر مورد با شماره‌ی فازی که در آن ثبت شده در لاگ می‌ماند.')}
- ${D('ثبت مورد روی بازیکن','کارت بازیکن را لمس کن. می‌توانی ساید او را عوض کنی، «کشته در شب» یا «اجماع روز» ثبت کنی، دلیل اختیاری بنویسی و تخلف مرحله‌ی اول یا دوم را انتخاب کنی. برچسب‌های زیر اسم، سابقه‌ی همان بازیکن است. ثبت اشتباه را از پیام پایین صفحه «واگرد» کن.')}
+ ${D('شروع سریع','<ol><li>در کارت «شروع بازی» بالای لیست (یا از «منو ← بازیکنان») تعداد و اسم بازیکن‌ها را بنویس.</li><li>با «تعیین ساید» (در همان کارت یا دکمه‌ی طلایی پایین صفحه) ساید همه را مشخص کن.</li><li>با «فاز بعد» بازی را جلو ببر.</li><li>هر اتفاقی که افتاد، روی کارت بازیکن بزن و ثبت کن.</li><li>آخر بازی، در تب «گزارش» عکس گزارش را بساز.</li></ol>')}
+ ${D('تعیین ساید','هر بازیکن با یک لمس شهروند، مافیا یا مستقل می‌شود و خودکار نفر بعدی می‌آید. «بقیه شهروند» باقی‌مانده را یک‌جا شهروند می‌کند. اگر سناریو مستقل ندارد، کلید «این سناریو مستقل دارد» را خاموش بگذار. در هر بازی فقط یک نفر می‌تواند مستقل باشد. وقتی ساید همه مشخص شد، دکمه‌ی طلایی ناپدید می‌شود؛ برای ویرایش، از «منو ← ساید بازیکن‌ها» یا از پایین پنجره‌ی هر بازیکن استفاده کن.')}
+ ${D('فازهای روز و شب','دکمه‌ی «فاز بعد» بین روز و شب جابه‌جا می‌کند و «قبلی» یک قدم برمی‌گرداند. هر مورد با شماره‌ی فازی که در آن ثبت شده در لاگ می‌ماند. اگر فاز را اشتباهی عوض کردی، از پیام «برگردان» پایین صفحه استفاده کن.')}
+ ${D('ثبت مورد روی بازیکن','کارت بازیکن را لمس کن. می‌توانی ساید او را عوض کنی، «کشته در شب» یا «اجماع روز» را مستقیم ثبت کنی (بدون دلیل) یا نوع تخلف را از مرحله‌ی اول یا دوم انتخاب کنی. بعد از انتخاب تخلف، پنجره‌ی دلیل باز می‌شود تا یکی از دلیل‌ها را بزنی یا دلیل شخصی بنویسی. «دیس‌کانکت» با یک نماد روی کارت نشان داده می‌شود. برچسب‌های زیر اسم، سابقه‌ی همان بازیکن است. ثبت اشتباه را از پیام پایین صفحه «واگرد» کن.')}
  ${D('لاگ','همه‌ی موارد ثبت‌شده به ترتیب فاز اینجاست. با ✕ کنار هر مورد حذفش می‌کنی و می‌توانی بلافاصله واگردش کنی.')}
- ${D('گزارش و عکس','در تب «گزارش» گردانندگان، سناریو، ساعت‌ها (با دکمه‌ی «اکنون»)، تاریخ و ساید برنده را پر کن. دکمه‌ی «عکس» یا «ذخیره / ارسال عکس» گزارش را به‌صورت عکس برای اشتراک می‌سازد. تخلفات و موارد پایانی داخل عکس نمی‌آیند و فقط در فرم می‌مانند.')}
- ${D('ظاهر و ذخیره','از «تنظیمات» تم تاریک یا روشن، رنگ اصلی و حالت نئون را عوض کن. همه‌چیز خودکار روی همین گوشی ذخیره می‌شود.')}
+ ${D('گزارش و عکس','در تب «گزارش» گردانندگان، سناریو، ساعت‌ها (با دکمه‌ی «اکنون»)، تاریخ و ساید برنده را پر کن. «ذخیره عکس گزارش» در منو یا دکمه‌ی «ذخیره / ارسال عکس» گزارش را به‌صورت عکس برای اشتراک می‌سازد. تخلفات و موارد پایانی داخل عکس نمی‌آیند و فقط در فرم می‌مانند.')}
+ ${D('بازی جدید','دکمه‌ی «بازی جدید» داخل «منو» (دکمه‌ی ☰ بالای صفحه) است. برای جلوگیری از پاک شدن اتفاقی، باید دو بار پشت‌سرهم بزنی: بار اول می‌پرسد «مطمئنی؟» و اگر ۴ ثانیه بگذرد لغو می‌شود. با بار دوم، لاگ، بازیکن‌ها، ساید و اطلاعات گزارش پاک می‌شود و بازی ۱۰ نفره‌ی تازه با نام‌های پیش‌فرض آماده می‌شود. تم و رنگ می‌مانند. این کار برگشت ندارد، پس اگر عکس گزارش لازم داری اول بگیرش.')}
+ ${D('ظاهر و ذخیره','از «منو ← تنظیمات» تم تاریک یا روشن، رنگ اصلی و حالت نئون را عوض کن. رنگ‌های اصلی برای تم تاریک و تم روشن جدا هستند و انتخاب هرکدام جداگانه یادش می‌ماند. همه‌چیز خودکار روی همین گوشی ذخیره می‌شود.')}
  </div>
 `,sh=>{
   sh.querySelector('#hpx').onclick=closeSh;
@@ -398,7 +442,7 @@ function openHelp(){const GO={'شروع سریع':['players','#edit','اول ا�
   const ds=[...sh.querySelectorAll('.hlp details')];
   ds.forEach(d=>d.addEventListener('toggle',()=>{if(!d.open)return;ds.forEach(o=>{if(o!==d)o.open=false});setTimeout(()=>d.scrollIntoView({block:'nearest',behavior:'smooth'}),60)}));
 })}
-$('#gear').onclick=openSettings;$('#help').onclick=openHelp;
+$('#menu').onclick=openMenu;try{if(localStorage.getItem('md2-menu-seen'))$('#menu').classList.add('seen')}catch(e){}
 
 /* report */
 const FL=[['g1','گرداننده اول'],['g2','گرداننده دوم'],['scenario','سناریو',1],['start','ساعت شروع',2],['finish','ساعت پایان',2],['date','تاریخ',1]],EF=[['dc','دیس‌کانکتی (موارد لاگ خودکار اضافه می‌شود)'],['beh','تخلف رفتاری'],['bug','مورد باگ'],['exp','تجربه‌نگاری جدید']];
@@ -526,9 +570,22 @@ async function saveImage(){
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();
  toast('عکس ذخیره شد')
 }
-$('#img').onclick=()=>{if(S.tab!=='report')setTab('report');saveImage()};$('#save').onclick=saveImage;
-let armed=false,at;$('#reset').onclick=()=>{const b=$('#reset');if(!armed){armed=true;b.textContent='همه‌چیز پاک شود؟ دوباره بزن';at=setTimeout(()=>{armed=false;b.textContent='بازی جدید'},4000);return}
- clearTimeout(at);armed=false;b.textContent='بازی جدید';S=def();paint=false;save();sync();renderAll();setTab('players');toast('بازی جدید آماده شد')};
+$('#save').onclick=saveImage;
+let armed=false,at;
+const IC=d=>`<svg class="ic" viewBox="0 0 24 24">${d}</svg>`;
+const MI={pl:IC('<circle cx="9" cy="8" r="3"/><path d="M3 19a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.5a5 5 0 0 1 5 4.5"/>'),sd:IC('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),set:IC('<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>'),help:IC('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/>'),img:IC('<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'),ng:IC('<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/>')};
+function openMenu(){armed=false;clearTimeout(at);store('md2-menu-seen','1');$('#menu').classList.add('seen');
+ const it=(k,t,d,c)=>`<button class="mi${c?' '+c:''}" data-m="${k}"><span class="mic">${MI[k]}</span><span><b>${t}</b><small>${d}</small></span></button>`;
+ openSh(`<div class="row"><h3>منو</h3><button class="x" id="mx" aria-label="بستن">${XI}</button></div>
+ <div class="mn">${it('pl','بازیکنان','تعداد صندلی‌ها و اسم هر بازیکن')}${it('sd','ساید بازیکن‌ها','تعیین یا ویرایش ساید همه')}${it('img','ذخیره عکس گزارش','ساخت و اشتراک عکس گزارش')}${it('set','تنظیمات','تم، رنگ اصلی و حالت نئون')}${it('help','راهنما','آموزش کار با برنامه')}${it('ng','بازی جدید','همه‌چیز پاک می‌شود و بازی تازه شروع می‌شود','dn')}</div>`,sh=>{
+  sh.querySelector('#mx').onclick=closeSh;
+  sh.querySelector('[data-m=pl]').onclick=openSetup;sh.querySelector('[data-m=sd]').onclick=openSideFlow;
+  sh.querySelector('[data-m=set]').onclick=openSettings;
+  sh.querySelector('[data-m=help]').onclick=openHelp;
+  sh.querySelector('[data-m=img]').onclick=()=>{closeSh();if(S.tab!=='report')setTab('report');saveImage()};
+  const ng=sh.querySelector('[data-m=ng]'),b=ng.querySelector('b'),sm=ng.querySelector('small'),t0=b.textContent,s0=sm.textContent;
+  ng.onclick=()=>{if(!armed){armed=true;ng.classList.add('armed');b.textContent='مطمئنی؟ دوباره بزن';sm.textContent='این کار برگشت ندارد';at=setTimeout(()=>{armed=false;if(ng.isConnected){ng.classList.remove('armed');b.textContent=t0;sm.textContent=s0}},4000);return}
+   clearTimeout(at);armed=false;closeSh();S=def();paint=false;save();sync();renderAll();setTab('players');toast('بازی جدید آماده شد')}})}
 function renderAll(){renderTop();renderPlayers();renderDock();renderPaint();renderLog()}
 document.fonts&&document.fonts.ready.then(draw);
 sync();renderAll();if(S.tab==='report')draw();
