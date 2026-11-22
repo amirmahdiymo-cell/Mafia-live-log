@@ -80,7 +80,7 @@ main.wrap{position:relative;z-index:2;padding:30px 16px 110px}
 .t.s1{background:color-mix(in srgb,var(--ac) 18%,transparent);color:var(--ac)}.t.s2{background:color-mix(in srgb,var(--m) 18%,transparent);color:var(--m)}
 .heat{position:absolute;left:12px;top:11px;display:flex;gap:3px}.heat i{width:6px;height:6px;border-radius:50%;background:var(--ln)}
 .heat i.f{background:var(--ac);box-shadow:0 0 6px var(--ac)}.pl[data-h="3"] .heat i.f{background:var(--m);box-shadow:0 0 6px var(--m)}
-.is-out{opacity:.5}.is-out .nm{text-decoration:line-through}.is-out .band{--bc:var(--mu)}
+.is-out{opacity:.5;filter:saturate(.2)}.is-out .nm{text-decoration:line-through}.is-out .band{--bc:var(--mu)}
 [data-neon="1"] .pl[data-s]{box-shadow:0 0 18px -5px var(--bc)}[data-neon="1"] .dock{box-shadow:0 0 24px -6px var(--ac)}
 .link{display:block;margin:16px auto 0;color:var(--mu);text-decoration:underline;padding:10px;font-size:15px}
 /* floating dock */
@@ -222,6 +222,40 @@ html .ib.pr.armed{background:var(--m);border-color:transparent;color:#fff;box-sh
 @media (prefers-reduced-motion:reduce){#menu::after{animation:none;display:none}}
 .stc{padding:12px;border:1px solid var(--ln);border-radius:20px;background:var(--s1)}
 .stc .row b{font-size:16px;font-weight:800}.stc .ag{margin-top:10px}
+.orbtn{position:fixed;left:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:15;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--gr);color:var(--on);box-shadow:inset 0 1px 0 #fff8,inset 0 -3px 8px #0003,0 14px 30px -10px var(--ac),0 4px 12px -4px #0008;transition:transform .15s ease}
+.orbtn:active{transform:scale(.92)}
+.orbtn svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;position:relative}
+.oring{position:absolute;inset:-9px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--ac) 50%,transparent);animation:orbit 8s linear infinite;pointer-events:none}
+.oring i{position:absolute;top:-4.5px;left:50%;margin-left:-4px;width:8px;height:8px;border-radius:50%;background:#fff3cf;box-shadow:0 0 8px 2px var(--ac)}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.qk{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.qt{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:112px;padding:10px 6px;border-radius:24px;border:1.5px solid var(--ln);background:color-mix(in srgb,var(--s1) 80%,transparent);color:var(--tx);font-weight:800;font-size:15px;box-shadow:inset 0 1px 0 var(--hl);transition:transform .12s ease}
+.qt:active{transform:scale(.95)}
+.qt .qi{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:var(--ac);background:radial-gradient(circle at 30% 25%,color-mix(in srgb,var(--ac) 30%,transparent),color-mix(in srgb,var(--ac) 8%,transparent));border:1.5px solid var(--gl)}
+.lk{position:relative;height:176px;display:grid;place-items:center;margin:14px 0 2px}
+.lk-ring{position:absolute;width:164px;height:164px;border-radius:50%;border:1.5px dashed color-mix(in srgb,var(--ac) 55%,transparent);animation:orbit 12s linear infinite}
+.lk-ring i{position:absolute;top:-5px;left:50%;margin-left:-5px;width:10px;height:10px;border-radius:50%;background:var(--ac);box-shadow:0 0 10px 2px var(--ac)}
+.lk-res{position:relative;max-width:128px;text-align:center;line-height:1.3;font:800 40px var(--f);color:var(--ac);word-break:break-word}
+.lk-res.pop{animation:lkpop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes lkpop{from{transform:scale(.55);opacity:.3}to{transform:none;opacity:1}}
+.bsc{width:100%;max-width:340px;display:block;margin:10px auto 0;color:var(--tx);overflow:visible}
+.bst{width:max-content;max-width:100%;margin:6px auto 12px;padding:8px 18px;border-radius:99px;font-weight:800;font-size:15px;border:1px solid var(--ln);background:var(--s2)}
+.bst.ok{color:var(--ac);border-color:var(--gl)}.bst.warn{color:var(--m);border-color:color-mix(in srgb,var(--m) 55%,transparent);background:color-mix(in srgb,var(--m) 12%,transparent)}.bst.win{color:var(--c);border-color:color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 12%,transparent)}
+.bln{margin:6px 0;text-align:center;font-size:15px}.bln b{color:var(--ac);font-size:18px}
+.bnt{margin:8px 0 0;text-align:center;color:var(--mu);font-size:13.5px}
+.pg2{position:relative;width:150px;height:150px;margin:14px auto 6px}
+.pg2 svg{width:100%;height:100%;display:block;overflow:visible}
+.pgt{fill:none;stroke:color-mix(in srgb,var(--ac) 18%,transparent);stroke-width:7}
+.pgf{fill:none;stroke:var(--ac);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1.1s cubic-bezier(.3,1,.4,1);filter:drop-shadow(0 0 6px var(--ac))}
+#pgd{transition:transform 1.1s cubic-bezier(.3,1,.4,1)}.pgp{fill:#fff3cf;stroke:var(--ac);stroke-width:2}
+.pgn{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.pgn b{font:800 44px/1.1 var(--f);color:var(--ac)}.pgn small{color:var(--mu);font-size:14px}
+.pgm{text-align:center;margin:4px 0 6px;font-weight:700}
+.mi.ok .mic{color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent)}
+
+/* player leaves the game */
+@keyframes outpop{0%{transform:none;opacity:1;filter:none}12%{transform:translateX(-6px) rotate(-.8deg);box-shadow:0 0 0 2px color-mix(in srgb,var(--m) 75%,transparent)}24%{transform:translateX(6px) rotate(.8deg)}36%{transform:translateX(-4px)}48%{transform:translateX(3px)}62%{transform:none;opacity:1;filter:none;box-shadow:none}100%{transform:none;opacity:.5;filter:saturate(.2)}}
+.pl.just-out{animation:outpop 1.4s ease both}
 </style>
 </head>
 <body>
@@ -251,6 +285,7 @@ html .ib.pr.armed{background:var(--m);border-color:transparent;color:#fff;box-sh
   <div style="margin-top:12px"><button class="chip pri" id="save" style="width:100%">ذخیره / ارسال عکس</button></div>
  </section>
 </main>
+<button class="orbtn" id="orbtn" type="button" aria-label="آماده‌سازی بازی"><span class="oring"><i></i></span><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="3"/><path d="M9 4.5h6M9 13l2.2 2.2L15.5 11"/></svg></button>
 <div class="scrim" id="scrim" hidden><div class="sheet sh" id="sheet"></div></div>
 <div class="toast" id="toast" hidden></div>
 <script>
@@ -299,9 +334,12 @@ $('#nx').onclick=()=>{const p=S.phase;S.phase=p.t==='day'?{t:'night',n:p.n}:{t:'
 $('#pv').onclick=()=>{const p=S.phase,q=p.t==='night'?{t:'day',n:p.n}:p.n>1?{t:'night',n:p.n-1}:null;if(!q)return;S.phase=q;save();renderTop();toast('فاز: '+pl(q),()=>{S.phase=p;save();renderTop()})};
 
 /* players */
-function renderPlayers(){const L=Math.ceil(S.players.length/2);
+let OUTSEEN=null;
+function renderPlayers(){const n=S.players.length,M=Math.floor(n/2),odd=n%2===1;
+ const place=i=>{const q=i+1;if(odd&&q===M+1)return'grid-column:1/-1;grid-row:'+q+';justify-self:center;width:calc(50% - 5px)';return q<=M?'grid-column:2;grid-row:'+q:'grid-column:1;grid-row:'+(n-q+1)};
  $('#pg').innerHTML=S.players.map((p,i)=>{const{c,out}=stats(p.id),h=heat(c,out);
-  return `<button class="pl${out?' is-out':''}" data-pid="${p.id}" data-s="${SD[p.side]?p.side:''}" data-h="${h}" style="grid-column:${i<L?2:1};grid-row:${i<L?i+1:2*L-i}"><span class="band">${fa(i+1)}</span><span class="bd"><b class="nm">${esc(p.name)}</b><span class="tg">${out?`<span class="t s2">${esc(outL(out))}</span>`:''}${!out&&c.warn>=2?'<span class="t">مرحله دوم؟</span>':''}${tags(c,out)}</span></span><span class="heat">${[1,2,3].map(k=>`<i class="${h>=k?'f':''}"></i>`).join('')}</span>${dcb(c)}</button>`}).join('');
+  return `<button class="pl${out?' is-out':''}" data-pid="${p.id}" data-s="${SD[p.side]?p.side:''}" data-h="${h}" style="${place(i)}"><span class="band">${fa(i+1)}</span><span class="bd"><b class="nm">${esc(p.name)}</b><span class="tg">${out?`<span class="t s2">${esc(outL(out))}</span>`:''}${!out&&c.warn>=2?'<span class="t">مرحله دوم؟</span>':''}${tags(c,out)}</span></span><span class="heat">${[1,2,3].map(k=>`<i class="${h>=k?'f':''}"></i>`).join('')}</span>${dcb(c)}</button>`}).join('');
+ {const now=new Set(S.players.filter(p=>stats(p.id).out).map(p=>p.id));if(OUTSEEN)$('#pg').querySelectorAll('.pl.is-out').forEach(b=>{if(!OUTSEEN.has(+b.dataset.pid)){b.classList.add('just-out');b.addEventListener('animationend',()=>b.classList.remove('just-out'),{once:true})}});OUTSEEN=now}
  $('#pg').querySelectorAll('.pl').forEach(b=>b.onclick=()=>{const id=+b.dataset.pid;if(paint){const p=S.players.find(x=>x.id===id);p.side=p.side===brush?'':brush;save();renderAll()}else openSheet(id)})}
 function renderDock(){const T={c:0,m:0,i:0,'':0};let al=0;S.players.forEach(p=>{if(!stats(p.id).out){al++;T[SD[p.side]?p.side:'']++}});
  const gone=S.players.length-al;
@@ -570,7 +608,7 @@ async function saveImage(){
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();
  toast('عکس ذخیره شد')
 }
-$('#save').onclick=saveImage;
+$('#save').onclick=saveImage;$('#orbtn').onclick=openQuick;
 let armed=false,at;
 const IC=d=>`<svg class="ic" viewBox="0 0 24 24">${d}</svg>`;
 const MI={pl:IC('<circle cx="9" cy="8" r="3"/><path d="M3 19a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.5a5 5 0 0 1 5 4.5"/>'),sd:IC('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),set:IC('<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>'),help:IC('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/>'),img:IC('<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'),ng:IC('<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/>')};
@@ -586,6 +624,33 @@ function openMenu(){armed=false;clearTimeout(at);store('md2-menu-seen','1');$('#
   const ng=sh.querySelector('[data-m=ng]'),b=ng.querySelector('b'),sm=ng.querySelector('small'),t0=b.textContent,s0=sm.textContent;
   ng.onclick=()=>{if(!armed){armed=true;ng.classList.add('armed');b.textContent='مطمئنی؟ دوباره بزن';sm.textContent='این کار برگشت ندارد';at=setTimeout(()=>{armed=false;if(ng.isConnected){ng.classList.remove('armed');b.textContent=t0;sm.textContent=s0}},4000);return}
    clearTimeout(at);armed=false;closeSh();S=def();paint=false;save();sync();renderAll();setTab('players');toast('بازی جدید آماده شد')}})}
+function goReport(id){closeSh();if(S.tab!=='report')setTab('report');setTimeout(()=>{const e=$('#'+id);if(e){e.scrollIntoView({block:'center',behavior:'smooth'});e.focus()}},400)}
+function openQuick(){
+ const unset=S.players.filter(p=>!SD[p.side]).length,I=S.info,N=S.players.length;
+ const items=[['sd','ساید بازیکن‌ها',unset?fa(unset)+' نفر بدون ساید':'همه مشخص شده‌اند',!unset,()=>openSideFlow()],
+  ['g','گرداننده',(I.g1||'').trim()?(I.g1+((I.g2||'').trim()?' و '+I.g2:'')):'هنوز نوشته نشده',!!(I.g1||'').trim(),()=>goReport('g1')],
+  ['sc','سناریو',(I.scenario||'').trim()||'هنوز نوشته نشده',!!(I.scenario||'').trim(),()=>goReport('scenario')]];
+ const done=items.filter(x=>x[3]).length,C=2*Math.PI*60;
+ const row=([k,t,d,ok],i)=>`<button class="mi${ok?' ok':''}" data-r="${i}"><span class="mic">${ok?IC('<path d="M5 12.5l4.5 4.5L19 7.5"/>'):IC('<circle cx="12" cy="12" r="7"/>')}</span><span><b>${t}</b><small>${esc(d)}</small></span></button>`;
+ openSh(`<div class="row"><h3>آماده‌سازی بازی</h3><button class="x" id="qx" aria-label="بستن">${XI}</button></div>
+ <div class="pg2"><svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="60" class="pgt"/><circle id="pgc" cx="75" cy="75" r="60" class="pgf" transform="rotate(-90 75 75)" stroke-dasharray="${C}" stroke-dashoffset="${C}"/><g id="pgd" style="transform-origin:75px 75px;transform:rotate(0deg)"><circle cx="75" cy="15" r="6" class="pgp"/></g></svg>
+ <div class="pgn"><b>${fa(done)}</b><small>از ${fa(items.length)}</small></div></div>
+ <p class="pgm">${done===items.length?'همه‌چیز آماده است':'برای شروع، موارد زیر را کامل کن'}</p>
+ <div class="sub" style="margin-top:6px">تعداد بازیکن‌ها</div>
+ <div class="spn"><button id="qm" aria-label="کم کردن">−</button><div><b>${fa(N)}</b><small>نفر</small></div><button id="qp" aria-label="اضافه کردن">+</button></div>
+ <div class="mn" style="margin-top:12px">${items.map(row).join('')}</div>
+ ${done===items.length?'<button class="go" id="pgo" style="margin-top:12px">شروع بازی (ثبت ساعت شروع)</button>':''}`,sh=>{
+  sh.querySelector('#qx').onclick=closeSh;
+  const setN=n=>{if(n<MINS||n>MAXS||n===S.players.length)return;const oP=S.players.map(p=>({...p})),oL=S.log.slice(),oU=S.uid;
+   if(n<S.players.length){S.players=S.players.slice(0,n);const keep=new Set(S.players.map(p=>p.id));S.log=S.log.filter(e=>keep.has(e.pid))}
+   else while(S.players.length<n)S.players.push({id:S.uid++,name:seat(S.players.length)});
+   save();renderAll();openQuick();
+   if(oL.length>S.log.length)toast('ثبت‌های صندلی‌های حذف‌شده پاک شد',()=>{S.players=oP;S.log=oL;S.uid=oU;save();renderAll()})};
+  const m=sh.querySelector('#qm'),p=sh.querySelector('#qp');m.disabled=N<=MINS;p.disabled=N>=MAXS;
+  m.onclick=()=>setN(N-1);p.onclick=()=>setN(N+1);
+  sh.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>items[+b.dataset.r][4]());
+  const g=sh.querySelector('#pgo');if(g)g.onclick=()=>{if(!(S.info.start||'').trim()){S.info.start=hm();save();sync()}closeSh();toast('بازی شروع شد؛ ساعت '+pd(S.info.start)+' ثبت شد')};
+  setTimeout(()=>{const c=sh.querySelector('#pgc'),d=sh.querySelector('#pgd');if(c)c.style.strokeDashoffset=C*(1-done/items.length);if(d)d.style.transform='rotate('+360*done/items.length+'deg)'},80)})}
 function renderAll(){renderTop();renderPlayers();renderDock();renderPaint();renderLog()}
 document.fonts&&document.fonts.ready.then(draw);
 sync();renderAll();if(S.tab==='report')draw();
