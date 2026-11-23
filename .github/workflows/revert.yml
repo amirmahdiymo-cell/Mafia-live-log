@@ -1,0 +1,18 @@
+name: Revert patch
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          C=$(git log --grep="Remove paste-names feature" --format=%H -n 1)
+          echo "commit: $C"
+          git revert --no-edit "$C"
+          git push
