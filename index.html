@@ -392,13 +392,6 @@ function renderLog(){const b=$('#ll');if(!S.log.length){b.innerHTML='<div class=
 /* sheets */
 let BK=null,hs=false,ign=0;
 function pushH(){try{history.pushState({mdSh:1},'');hs=true}catch(e){}}
-let hs=0,ign=false;
-const canBack=()=>!$('#scrim').hidden||S.tab!=='players';
-function navSync(){if(canBack()){if(!hs){history.pushState({md:1},'');hs=1}}else if(hs){setTimeout(()=>{if(hs&&!canBack()){hs=0;ign=true;history.back()}},0)}}
-function backOne(){if(!$('#scrim').hidden){if($('#sfx')&&sfi>0){sfi--;sideStep()}else closeSh();return}if(S.tab!=='players')setTab('players')}
-window.addEventListener('popstate',()=>{if(ign){ign=false;return}hs=0;backOne();navSync()});
-{const _o=openSh,_c=closeSh,_t=setTab;openSh=function(h,f){_o(h,f);navSync()};closeSh=function(){_c();navSync()};setTab=function(k){_t(k);navSync()}}
-setTimeout(navSync,0);
 function openSh(html,fn){const s=$('#sheet');if($('#scrim').hidden)pushH();s.innerHTML='<div class="grab"></div>'+html;s.onclick=e=>e.stopPropagation();
  if(BK){const r=s.querySelector('.row');if(r&&r.firstElementChild){const f=BK,w=document.createElement('div');w.style.cssText='display:flex;gap:8px;align-items:center;min-width:0';const b=document.createElement('button');b.className='x';b.id='bk';b.type='button';b.setAttribute('aria-label','بازگشت');b.textContent='→';b.onclick=()=>f();const first=r.firstElementChild;r.insertBefore(w,first);w.append(b,first)}}
  $('#scrim').hidden=false;s.scrollTop=0;fn&&fn(s)}
@@ -446,6 +439,8 @@ function parseNames(t){let ls=String(t||'').replace(/[\u200e\u200f\u202a-\u202e\
 function openSetup(){let n=S.players.length;const names=Array.from({length:MAXS},(_,i)=>{const p=S.players[i];return p&&p.name!==seat(i)?p.name:''});
  openSh(`<div class="row"><div><h3>بازیکنان</h3><small style="color:var(--mu)">تعداد صندلی‌ها و نام هر بازیکن</small></div><button class="x" id="spx" aria-label="بستن">${XI}</button></div>
  <div class="spn"><button id="spm" aria-label="کم کردن">−</button><div><b id="spN"></b><small>نفر</small></div><button id="spp" aria-label="اضافه کردن">+</button></div>
+ <button class="chip" id="spi" style="width:100%;margin-top:12px">چسباندن یک‌جای لیست اسم‌ها</button>
+ <div id="spb" hidden style="margin-top:10px"><textarea id="spta" rows="6" dir="auto" placeholder="لیست را اینجا paste کن؛ هر اسم در یک خط"></textarea><div class="pb" style="margin-top:8px"><button class="chip" id="spc" style="flex:1">از کلیپ‌بورد</button><button class="chip pri" id="spg" style="flex:1.4">اعمال روی صندلی‌ها</button></div></div>
  <div class="sub">نام‌ها · خالی یعنی «بازیکن N»</div><div class="spl" id="spl"></div>
  <div class="spf"><button class="go" id="sps">ذخیره</button></div>`,sh=>{
   const L=sh.querySelector('#spl');
@@ -454,12 +449,19 @@ function openSetup(){let n=S.players.length;const names=Array.from({length:MAXS}
    for(let i=L.children.length;i<n;i++){const r=document.createElement('label');r.className='spr';
     r.innerHTML=`<span>${fa(i+1)}</span><input type="text" maxlength="30" autocomplete="off" enterkeyhint="next" placeholder="${esc(seat(i))}" aria-label="نام صندلی ${fa(i+1)}">`;
     const inp=r.querySelector('input');
-    inp.addEventListener('input',()=>{names[i]=inp.value});
+    const fill=t=>{const ls=parseNames(t);if(ls.length<2)return false;ls.forEach((l,k)=>{if(i+k<MAXS)names[i+k]=l});n=Math.max(n,Math.min(MAXS,i+ls.length));paint();toast(fa(Math.min(ls.length,MAXS-i))+' اسم جایگذاری شد');return true};
+    inp.addEventListener('input',e=>{const raw=e.data||'';if(NL.test(raw.trim())&&fill(raw))return;names[i]=inp.value});
     inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const nx=L.children[i+1];nx?nx.querySelector('input').focus():inp.blur()}});
+    inp.addEventListener('paste',e=>{const t=(e.clipboardData||window.clipboardData).getData('text')||'';if(NL.test(t.trim())&&fill(t))e.preventDefault()});
+    inp.addEventListener('beforeinput',e=>{const t=e.data||(e.dataTransfer&&e.dataTransfer.getData('text'))||'';if(e.cancelable&&NL.test(t.trim())&&fill(t))e.preventDefault()});
     L.append(r)}
    [...L.children].forEach((r,k)=>{r.querySelector('input').value=names[k]||''})};
   sh.querySelector('#spx').onclick=closeSh;
   sh.querySelector('#spm').onclick=()=>{if(n>MINS){n--;paint()}};sh.querySelector('#spp').onclick=()=>{if(n<MAXS){n++;paint()}};
+  sh.querySelector('#spi').onclick=()=>{const b=sh.querySelector('#spb');b.hidden=!b.hidden;if(!b.hidden)sh.querySelector('#spta').focus()};
+  sh.querySelector('#spc').onclick=async()=>{try{const t=await navigator.clipboard.readText();if(t&&t.trim())sh.querySelector('#spta').value=t;else toast('کلیپ‌بورد خالی است')}catch(e){sh.querySelector('#spta').focus();toast('داخل کادر نگه دار و Paste بزن')}};
+  sh.querySelector('#spg').onclick=()=>{const ls=parseNames(sh.querySelector('#spta').value).slice(0,MAXS);if(!ls.length){toast('لیستی وارد نشده');return}
+   names.fill('');ls.forEach((l,k)=>names[k]=l);n=Math.max(MINS,ls.length);sh.querySelector('#spta').value='';sh.querySelector('#spb').hidden=true;paint();toast(fa(ls.length)+' اسم جایگذاری شد؛ ذخیره را بزن')};
   sh.querySelector('#sps').onclick=()=>{S.players=S.players.slice(0,n);const keep=new Set(S.players.map(p=>p.id)),b4=S.log.length;S.log=S.log.filter(e=>keep.has(e.pid));
    while(S.players.length<n)S.players.push({id:S.uid++,name:seat(S.players.length)});
    S.players.forEach((p,i)=>p.name=(names[i]||'').trim()||seat(i));save();closeSh();renderAll();toast(b4>S.log.length?'ذخیره شد؛ ثبت‌های صندلی‌های حذف‌شده پاک شد':'نام‌ها ذخیره شد')};
