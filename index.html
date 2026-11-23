@@ -129,7 +129,6 @@ canvas{width:100%;height:auto;border-radius:18px;border:1px solid var(--gl);disp
 .rs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}.rs .chip{min-height:40px;font-size:13.5px;flex:none}
 .stp{display:flex;align-items:center;gap:12px}.stp button{width:48px;height:48px;border-radius:50%;border:1px solid var(--gl);font-size:22px;font-weight:800}.stp output{font:700 30px var(--dp);min-width:44px;text-align:center}
 .sw{display:flex;gap:12px}.sw button{width:46px;height:46px;border-radius:50%;background:var(--c1);border:3px solid transparent;box-shadow:inset 0 1px 0 #fff6}.sw .on{border-color:var(--tx)}
-.extoast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:30;width:max-content;max-width:94vw;box-sizing:border-box;white-space:nowrap;background:var(--tx);color:var(--bg);border-radius:22px;padding:11px 18px;font-weight:700;font-size:14.5px;text-align:center;box-shadow:0 14px 30px -10px #000a}.extoast[hidden]{display:none}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:30;background:var(--tx);color:var(--bg);border-radius:22px;padding:11px 18px;display:flex;gap:14px;align-items:center;font-weight:700;max-width:92vw;box-shadow:0 14px 30px -10px #000a}
 .toast button{color:var(--a0);font-weight:800;text-decoration:underline}
 .shot{position:fixed;inset:0;z-index:40;background:#000e;overflow:auto;padding:16px;text-align:center;color:#fff}.shot img{width:100%;max-width:520px;border-radius:14px}
@@ -337,7 +336,9 @@ function renderTop(){$('#phl').textContent=pl(S.phase);document.documentElement.
  $('#tabs').innerHTML=TABS.map(([k,n])=>`<button class="${S.tab===k?'on':''}" data-t="${k}">${n}${k==='log'&&S.log.length?`<span class="bdg">${fa(S.log.length)}</span>`:''}</button>`).join('');
  $('#tabs').querySelectorAll('button').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
  TABS.forEach(([k])=>$('#v-'+k).hidden=S.tab!==k)}
-function setTab(k){S.tab=k;save();renderAll();if(k==='report')draw();scrollTo(0,0)}
+let tabStack=[];
+function goTab(k){S.tab=k;save();renderAll();if(k==='report')draw();scrollTo(0,0)}
+function setTab(k){if(k!==S.tab&&$('#scrim').hidden){tabStack.push(S.tab);try{history.pushState({mdTab:1},'')}catch(e){}}goTab(k)}
 $('#nx').onclick=()=>{const p=S.phase;S.phase=p.t==='day'?{t:'night',n:p.n}:{t:'day',n:p.n+1};save();renderTop();toast('فاز: '+pl(S.phase),()=>{S.phase=p;save();renderTop()})};
 $('#pv').onclick=()=>{const p=S.phase,q=p.t==='night'?{t:'day',n:p.n}:p.n>1?{t:'night',n:p.n-1}:null;if(!q)return;S.phase=q;save();renderTop();toast('فاز: '+pl(q),()=>{S.phase=p;save();renderTop()})};
 
@@ -396,9 +397,13 @@ function openSh(html,fn){const s=$('#sheet');if($('#scrim').hidden)pushH();s.inn
  if(BK){const r=s.querySelector('.row');if(r&&r.firstElementChild){const f=BK,w=document.createElement('div');w.style.cssText='display:flex;gap:8px;align-items:center;min-width:0';const b=document.createElement('button');b.className='x';b.id='bk';b.type='button';b.setAttribute('aria-label','بازگشت');b.textContent='→';b.onclick=()=>f();const first=r.firstElementChild;r.insertBefore(w,first);w.append(b,first)}}
  $('#scrim').hidden=false;s.scrollTop=0;fn&&fn(s)}
 function closeSh(){const was=!$('#scrim').hidden;$('#scrim').hidden=true;cur=null;BK=null;if(was&&hs){hs=false;ign++;try{history.back()}catch(e){ign--}}}
-let exArm=false,exT=0;
-let exE=null,exTT=0;function exMsg(){if(!exE){exE=document.createElement('div');exE.className='extoast';exE.textContent='برای خروج از اپلیکیشن، دو بار بک بزنید';document.body.append(exE)}exE.hidden=false;clearTimeout(exTT);exTT=setTimeout(()=>{exE.hidden=true},2200)}
-window.addEventListener('popstate',()=>{if(ign>0){ign--;return}if($('#scrim').hidden){if(exArm){clearTimeout(exT);exArm=false;try{history.back()}catch(e){}return}exArm=true;try{history.pushState({mdApp:1},'')}catch(e){}exMsg();exT=setTimeout(()=>{exArm=false},2200);return}hs=false;const f=BK;if(f){f();pushH()}else{$('#scrim').hidden=true;cur=null}});
+/* دکمه‌ی Back: هیچ‌وقت از برنامه خارج نمی‌شود؛ یک صفحه به عقب (شیت ← شیت قبلی ← تب قبلی) و در ریشه همان‌جا می‌ماند */
+window.addEventListener('popstate',()=>{
+ if(ign>0){ign--;return}
+ if(!$('#scrim').hidden){hs=false;const f=BK;if(f){f();pushH()}else{$('#scrim').hidden=true;cur=null}return}
+ if(tabStack.length){goTab(tabStack.pop());return}
+ try{history.pushState({mdApp:1},'')}catch(e){}
+});
 $('#scrim').onclick=closeSh;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSh()});
 const RSN={a:REASONS,b:['تکرار تخلف بعد از اخطار','توهین','اکت ممتد','اطلاق نقش','چسباندن نقش'],c:['توهین شدید','سلب نقش','درخواست اخراج از بازی','تخلف سنگین','عدم رعایت قوانین']};
 const RG={rec:'a',note:'a',warn:'a',susp:'b',sil:'b',kill:'c',kick:'c'};
@@ -439,8 +444,6 @@ function parseNames(t){let ls=String(t||'').replace(/[\u200e\u200f\u202a-\u202e\
 function openSetup(){let n=S.players.length;const names=Array.from({length:MAXS},(_,i)=>{const p=S.players[i];return p&&p.name!==seat(i)?p.name:''});
  openSh(`<div class="row"><div><h3>بازیکنان</h3><small style="color:var(--mu)">تعداد صندلی‌ها و نام هر بازیکن</small></div><button class="x" id="spx" aria-label="بستن">${XI}</button></div>
  <div class="spn"><button id="spm" aria-label="کم کردن">−</button><div><b id="spN"></b><small>نفر</small></div><button id="spp" aria-label="اضافه کردن">+</button></div>
- <button class="chip" id="spi" style="width:100%;margin-top:12px">چسباندن یک‌جای لیست اسم‌ها</button>
- <div id="spb" hidden style="margin-top:10px"><textarea id="spta" rows="6" dir="auto" placeholder="لیست را اینجا paste کن؛ هر اسم در یک خط"></textarea><div class="pb" style="margin-top:8px"><button class="chip" id="spc" style="flex:1">از کلیپ‌بورد</button><button class="chip pri" id="spg" style="flex:1.4">اعمال روی صندلی‌ها</button></div></div>
  <div class="sub">نام‌ها · خالی یعنی «بازیکن N»</div><div class="spl" id="spl"></div>
  <div class="spf"><button class="go" id="sps">ذخیره</button></div>`,sh=>{
   const L=sh.querySelector('#spl');
@@ -458,10 +461,6 @@ function openSetup(){let n=S.players.length;const names=Array.from({length:MAXS}
    [...L.children].forEach((r,k)=>{r.querySelector('input').value=names[k]||''})};
   sh.querySelector('#spx').onclick=closeSh;
   sh.querySelector('#spm').onclick=()=>{if(n>MINS){n--;paint()}};sh.querySelector('#spp').onclick=()=>{if(n<MAXS){n++;paint()}};
-  sh.querySelector('#spi').onclick=()=>{const b=sh.querySelector('#spb');b.hidden=!b.hidden;if(!b.hidden)sh.querySelector('#spta').focus()};
-  sh.querySelector('#spc').onclick=async()=>{try{const t=await navigator.clipboard.readText();if(t&&t.trim())sh.querySelector('#spta').value=t;else toast('کلیپ‌بورد خالی است')}catch(e){sh.querySelector('#spta').focus();toast('داخل کادر نگه دار و Paste بزن')}};
-  sh.querySelector('#spg').onclick=()=>{const ls=parseNames(sh.querySelector('#spta').value).slice(0,MAXS);if(!ls.length){toast('لیستی وارد نشده');return}
-   names.fill('');ls.forEach((l,k)=>names[k]=l);n=Math.max(MINS,ls.length);sh.querySelector('#spta').value='';sh.querySelector('#spb').hidden=true;paint();toast(fa(ls.length)+' اسم جایگذاری شد؛ ذخیره را بزن')};
   sh.querySelector('#sps').onclick=()=>{S.players=S.players.slice(0,n);const keep=new Set(S.players.map(p=>p.id)),b4=S.log.length;S.log=S.log.filter(e=>keep.has(e.pid));
    while(S.players.length<n)S.players.push({id:S.uid++,name:seat(S.players.length)});
    S.players.forEach((p,i)=>p.name=(names[i]||'').trim()||seat(i));save();closeSh();renderAll();toast(b4>S.log.length?'ذخیره شد؛ ثبت‌های صندلی‌های حذف‌شده پاک شد':'نام‌ها ذخیره شد')};
