@@ -1,0 +1,58 @@
+name: Patch index.html
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply patch
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          s = open('index.html', encoding='utf-8').read()
+          if 'navSync' in s:
+              sys.exit('already patched')
+
+          def sub(pat, new, flags=0):
+              global s
+              s, n = re.subn(pat, lambda m: new, s, flags=flags)
+              if n != 1:
+                  sys.exit('FAILED regex: ' + pat[:40] + ' matches=' + str(n))
+
+          def rep(a, b):
+              global s
+              if s.count(a) != 1:
+                  sys.exit('FAILED text: ' + a[:40] + ' count=' + str(s.count(a)))
+              s = s.replace(a, b)
+
+          sub(r'<button class="chip" id="spi".*?</button>\s*<div id="spb".*?</button></div></div>\s*', '', re.S)
+          sub(r"sh\.querySelector\('#spi'\)\.onclick.*?ذخیره را بزن'\)\};\s*", '', re.S)
+          sub(r"const fill=t=>\{.*?return true\};\s*", '', re.S)
+          sub(r"inp\.addEventListener\('input',e=>\{const raw.*?names\[i\]=inp\.value\}\);", "inp.addEventListener('input',()=>{names[i]=inp.value});")
+          sub(r"inp\.addEventListener\('paste'[^\n]*\n\s*", '')
+          sub(r"inp\.addEventListener\('beforeinput'[^\n]*\n\s*", '')
+
+          blk = """let hs=0,ign=false;
+          const canBack=()=>!$('#scrim').hidden||S.tab!=='players';
+          function navSync(){if(canBack()){if(!hs){history.pushState({md:1},'');hs=1}}else if(hs){setTimeout(()=>{if(hs&&!canBack()){hs=0;ign=true;history.back()}},0)}}
+          function backOne(){if(!$('#scrim').hidden){if($('#sfx')&&sfi>0){sfi--;sideStep()}else closeSh();return}if(S.tab!=='players')setTab('players')}
+          window.addEventListener('popstate',()=>{if(ign){ign=false;return}hs=0;backOne();navSync()});
+          """
+          rep("function openSh(html,fn){", blk + "function openSh(html,fn){")
+          rep("$('#scrim').hidden=false;s.scrollTop=0;fn&&fn(s)}", "$('#scrim').hidden=false;navSync();s.scrollTop=0;fn&&fn(s)}")
+          rep("function closeSh(){$('#scrim').hidden=true;cur=null}", "function closeSh(){$('#scrim').hidden=true;cur=null;navSync()}")
+          rep("function setTab(k){S.tab=k;save();renderAll();if(k==='report')draw();scrollTo(0,0)}", "function setTab(k){S.tab=k;save();renderAll();if(k==='report')draw();navSync();scrollTo(0,0)}")
+          rep("sync();renderAll();if(S.tab==='report')draw();", "sync();renderAll();if(S.tab==='report')draw();navSync();")
+
+          open('index.html', 'w', encoding='utf-8').write(s)
+          print('patched OK')
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add index.html
+          git commit -m "Remove paste-names feature, fix Android back button"
+          git push
